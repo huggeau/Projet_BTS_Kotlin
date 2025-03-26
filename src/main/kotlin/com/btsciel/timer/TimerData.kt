@@ -5,7 +5,6 @@ import com.btsciel.models.ModelQPIGS
 import javafx.application.Platform
 import javafx.beans.property.StringProperty
 import jssc.SerialPortException
-import java.lang.String
 import java.sql.SQLException
 import java.util.*
 
@@ -75,15 +74,14 @@ class TimerData(wks: Wks) {
     fun runThreadModifData(mQpigs: ModelQPIGS) {
         this.mQpigs = mQpigs
         val timerTask: TimerTask = object : TimerTask() {
-            override fun run() {
+            override
+            fun run() {
                 //todo
                 val data: StringProperty = mQpigs.AC_output_apparent_powerProperty()
                 Platform.runLater {
-                    if (data != null) {
-                        data.set(
-                            String.valueOf(mQpigs.AC_output_apparent_powerProperty())
-                        )
-                    }
+                    data.set(
+                        mQpigs.AC_output_apparent_powerProperty().toString()
+                    )
                 }
             }
         }

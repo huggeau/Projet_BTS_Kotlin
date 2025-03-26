@@ -185,7 +185,7 @@ class Wks : LiaisonSerie() {
 
         val tab2 = s.substring(1)
         val tab3 = arrayOfNulls<String>(39)
-        for (i in 0..<tab2.length) {
+        for (i in tab2.indices) {
             if (tab2.length < 79) {
                 tab3[i] = tab2.substring(i, i + 1)
             } else {
@@ -244,7 +244,7 @@ class Wks : LiaisonSerie() {
     @Throws(SQLException::class)
     fun calculMoyenneEnergie() {
         var moyenneEnergie = 0.0
-        if (!listACOutputApparentPower.isEmpty()) {
+        if (listACOutputApparentPower.isNotEmpty()) {
             if (listACOutputApparentPower.size <= 10) {
                 for (s in listACOutputApparentPower) {
                     val valeur = s.toInt()
@@ -290,13 +290,13 @@ class Wks : LiaisonSerie() {
             }
         }
         retrofit.api.postInfo(modelInfoOnduleur)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
-            override fun onResponse(call: retrofit2.Call<Api_Retrofit?>?, response: retrofit2.Response<Api_Retrofit?>) {
+            override fun onResponse(call: Call<Api_Retrofit?>, response: Response<Api_Retrofit?>) {
                 if (response.isSuccessful && response.body() != null) {
                     println(response.body())
                 }
             }
 
-            override fun onFailure(call: retrofit2.Call<Api_Retrofit?>?, throwable: Throwable) {
+            override fun onFailure(call: Call<Api_Retrofit?>, throwable: Throwable) {
                 System.err.println(throwable.message)
             }
         })
@@ -322,13 +322,13 @@ class Wks : LiaisonSerie() {
             }
         }
         retrofit.api.postConso(modelConsoOnduleur)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
-            override fun onResponse(call: retrofit2.Call<Api_Retrofit?>?, response: retrofit2.Response<Api_Retrofit?>) {
+            override fun onResponse(call: Call<Api_Retrofit?>, response: Response<Api_Retrofit?>) {
                 if (response.isSuccessful && response.body() != null) {
                     println(response.body())
                 }
             }
 
-            override fun onFailure(call: retrofit2.Call<Api_Retrofit?>?, throwable: Throwable) {
+            override fun onFailure(call: Call<Api_Retrofit?>, throwable: Throwable) {
                 System.err.println(throwable.message)
             }
         })

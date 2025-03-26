@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     kotlin("jvm") version "2.1.10"
     id("com.github.johnrengelman.shadow") version "7.1.2"
@@ -14,6 +16,16 @@ repositories {
 javafx {
     version = "21"
     modules("javafx.controls", "javafx.fxml")
+}
+
+tasks.withType<ShadowJar> {
+    archiveBaseName.set("Onduleur_Rpi")
+    archiveVersion.set("1.0.0")
+    archiveClassifier.set("")
+
+    manifest {
+        attributes["Main-Class"] = "com.btsciel.MainKt"
+    }
 }
 
 dependencies {

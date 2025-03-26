@@ -63,7 +63,10 @@ class HelloController : Initializable {
         launchTimers()
     }
 
-    fun blockPanel() {
+    /**
+     * Méthode servant à bloquer les séparateurs des splits panels.
+     */
+    private fun blockPanel() {
         splitplane1?.getDividers()?.first()?.positionProperty()
             ?.addListener { observable: ObservableValue<out Number?>?, oldValue: Number?, newValue: Number? ->
                 splitplane1!!.setDividerPositions(absolutePositionPanel1)
@@ -75,7 +78,7 @@ class HelloController : Initializable {
     }
 
     /** Méthode servant à lancer tous les timers. */
-    fun launchTimers() {
+    private fun launchTimers() {
         timer.runThreadRecupDataOnduleur()
         timer.runThreadMoyenneEnergie()
         timer.runThreadEnvoieBddDistante()

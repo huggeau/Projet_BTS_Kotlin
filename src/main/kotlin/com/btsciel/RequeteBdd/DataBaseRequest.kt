@@ -4,12 +4,13 @@ import java.sql.*
 
 
 class DataBaseRequest {
-    /** Chemin vers la bdd pour le connecteur (à modifier, car chemin absolu sur windows pas linux) */ //todo
+    /** Chemin vers la bdd pour le connecteur (à modifier, car chemin absolu sur windows pas linux) */
+    //todo
     //     private String connector = "jdbc:sqlite:/home/install/BddLocal.sqlite";
     private val connector = "jdbc:sqlite:C:\\Users\\hugo\\OneDrive\\Projet\\BddLocal\\BddLocal.sqlite"
 
     /** Vérifie si la bdd est joignable */
-    var conn: Connection? = DriverManager.getConnection(connector)
+    private var conn: Connection? = DriverManager.getConnection(connector)
 
     init {
         Class.forName("org.sqlite.JDBC")
