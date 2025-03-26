@@ -9,13 +9,15 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface IntWeb {
-    @get:GET("/prix/voirPrix")
-    val getPrix: Call<PojoPrix?>?
+    @GET("/prix/voirPrix")
+    fun getPrix(): Call<PojoPrix?>?
 
     @POST("/onduleur/addConso")
     fun postConso(@Body modelConsoOnduleur: ModelConsoOnduleur?): Call<Api_Retrofit?>?
 
     @POST("/onduleur/addInfoOnduleur")
-    fun postInfo(@Body infoOnduleur: ModelInfoOnduleur?): Call<Api_Retrofit?>? //    @GET("/onduleur/parametreOnduleur")
+    fun postInfo(@Body infoOnduleur: ModelInfoOnduleur?): Call<Api_Retrofit?>?
+
+//    @GET("/onduleur/parametreOnduleur")
     //    Call<PojoParamOndu> getParamOndu();
 }

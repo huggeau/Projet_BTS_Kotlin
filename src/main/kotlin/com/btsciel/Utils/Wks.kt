@@ -5,6 +5,8 @@ import com.btsciel.RequeteBdd.DataBaseRequest
 import com.btsciel.models.*
 import com.btsciel.retrofit.Api_Retrofit
 import jssc.SerialPortEvent
+import retrofit2.Call
+import retrofit2.Response
 import java.sql.*
 
 class Wks : LiaisonSerie() {
@@ -245,8 +247,7 @@ class Wks : LiaisonSerie() {
         if (!listACOutputApparentPower.isEmpty()) {
             if (listACOutputApparentPower.size <= 10) {
                 for (s in listACOutputApparentPower) {
-                    var valeur = 0
-                    valeur = s.toInt()
+                    val valeur = s.toInt()
                     moyenneEnergie += valeur.toDouble()
                 }
             }
@@ -257,18 +258,18 @@ class Wks : LiaisonSerie() {
 
     /** Méthode qui va chercher le prix sur le serveur distant. */
     fun recupPrix() {
-        retrofit.api.getPrix?.enqueue(object : retrofit2.Callback<PojoPrix?> {
-            override fun onResponse(call: retrofit2.Call<PojoPrix?>?, response: retrofit2.Response<PojoPrix?>) {
-                if (response.isSuccessful && response.body() != null) {
+        retrofit.api.getPrix()?.enqueue(object : retrofit2.Callback<PojoPrix?> {
+            override fun onResponse(call: Call<PojoPrix?>, response: Response<PojoPrix?>) {
+                if (response.isSuccessful) {
                     try {
-                        dataBaseRequest.updatetPrix(java.lang.String.valueOf(response.body()!!.prix))
+                        dataBaseRequest.updatetPrix(response.body()?.prix.toString())
                     } catch (e: SQLException) {
                         System.err.println(e.message)
                     }
                 }
             }
 
-            override fun onFailure(call: retrofit2.Call<PojoPrix?>?, throwable: Throwable) {
+            override fun onFailure(call: Call<PojoPrix?>, throwable: Throwable) {
                 System.err.println(throwable.message)
             }
         })

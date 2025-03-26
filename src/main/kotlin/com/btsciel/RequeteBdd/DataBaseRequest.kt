@@ -49,11 +49,11 @@ class DataBaseRequest {
 
     /** Sert à mettre à jour le prix dans la bdd. */
     @Throws(SQLException::class)
-    fun updatetPrix(prix: String) {
+    fun updatetPrix(prix: String?) {
         if (conn != null) {
             val query = "UPDATE Prix SET prix=? WHERE id=1"
             val ps = conn!!.prepareStatement(query)
-            ps.setDouble(1, prix.toDouble())
+            ps.setDouble(1, prix!!.toDouble())
             ps.executeUpdate()
         }
     }
