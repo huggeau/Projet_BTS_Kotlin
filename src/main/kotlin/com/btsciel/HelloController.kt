@@ -3,6 +3,8 @@ package com.btsciel
 import com.btsciel.Utils.Wks
 import com.btsciel.models.ModelQPIGS
 import com.btsciel.timer.TimerData
+import javafx.application.Platform
+import javafx.beans.property.SimpleStringProperty
 import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
@@ -17,6 +19,7 @@ import java.util.*
 class HelloController : Initializable {
     private val absolutePositionPanel1 = .33
     private val absolutePositionPanel2 = .25
+    private val timer_binding: Timer = Timer()
 
     @FXML
     var labelConsoInstant: javafx.scene.control.Label? = null
@@ -37,19 +40,16 @@ class HelloController : Initializable {
     @FXML
     var splitplane2: SplitPane? = null
 
-    var wks: Wks = Wks()
-    var timer: TimerData = TimerData(wks)
+    private var wks: Wks = Wks()
+    private var timer: TimerData = TimerData(wks)
     var mQPIGS: ModelQPIGS = wks.getModelQPIGS()
+    var data:SimpleStringProperty= SimpleStringProperty()
 
 
     override fun initialize(location: java.net.URL?, resources: ResourceBundle?) {
         blockPanel()
 
-        labelConsoInstant!!.textProperty().bind(
-            javafx.beans.binding.Bindings.`when`(mQPIGS.AC_output_apparent_powerProperty().isNotNull())
-                .then(mQPIGS.getAC_output_apparent_power())
-                .otherwise("valeur null")
-        )
+        labelConsoInstant!!.textProperty().bind(data)
 
         ButtonAdmin!!.onAction =
             javafx.event.EventHandler { event: javafx.event.ActionEvent? ->
@@ -61,13 +61,22 @@ class HelloController : Initializable {
             }
 
         launchTimers()
+
+        val timerTask: TimerTask = object : TimerTask() {
+            override fun run() {
+                Platform.runLater {
+                    data.set(mQPIGS.AC_output_apparent_powerProperty().value.toString())
+                }
+            }
+        }
+        timer_binding.scheduleAtFixedRate(timerTask, 0, 1000)
     }
 
     /**
      * Méthode servant à bloquer les séparateurs des splits panels.
      */
     private fun blockPanel() {
-        splitplane1?.getDividers()?.first()?.positionProperty()
+        splitplane1?.dividers?.first()?.positionProperty()
             ?.addListener { observable: ObservableValue<out Number?>?, oldValue: Number?, newValue: Number? ->
                 splitplane1!!.setDividerPositions(absolutePositionPanel1)
             }
