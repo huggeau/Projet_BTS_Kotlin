@@ -38,6 +38,5 @@ class ModelQPIGS {
     fun AC_output_apparent_powerProperty(): SimpleStringProperty {
         return AC_output_apparent_power
     }
-
     /** Fin de celles qui sont utiles */
 }

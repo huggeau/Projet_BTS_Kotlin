@@ -9,10 +9,8 @@ import java.sql.SQLException
 import java.util.*
 
 class TimerData(wks: Wks) {
-    var timer: Timer = Timer()
+    private var timer: Timer = Timer()
     var wks: Wks = wks
-    var mQpigs: ModelQPIGS? = null
-
 
     /** Test si le connecteur est bien installé et se connecte à la bdd. */
     init {
@@ -38,6 +36,26 @@ class TimerData(wks: Wks) {
             }
         }
         timer.scheduleAtFixedRate(timerTask, 0, 6000)
+    }
+
+    /**Thread qui permet d'envoyer la requête QPIRI a l'onduleur.*/
+    fun runThreadParamOnduleur(){
+        val timerTask: TimerTask = object : TimerTask() {
+            override fun run() {
+                wks.requeteQPIRI()
+            }
+        }
+        timer.scheduleAtFixedRate(timerTask, 1000, 6000)
+    }
+
+    /**Thread qui permet d'envoyer la requête QPIWS à l'onduleur*/
+    fun runThreadWarningOnduleur(){
+        val timerTask: TimerTask = object : TimerTask() {
+            override fun run() {
+                wks.requeteQPIWS()
+            }
+        }
+        timer.scheduleAtFixedRate(timerTask, 2000, 6000)
     }
 
     /** Thread qui permet de faire la moyenne des données reçue avant de les mettre dans la bdd. */
@@ -69,23 +87,6 @@ class TimerData(wks: Wks) {
             }
         }
         timer.scheduleAtFixedRate(timerTask, 600000, 600000)
-    }
-
-    fun runThreadModifData(mQpigs: ModelQPIGS) {
-        this.mQpigs = mQpigs
-        val timerTask: TimerTask = object : TimerTask() {
-            override
-            fun run() {
-                //todo
-                val data: StringProperty = mQpigs.AC_output_apparent_powerProperty()
-                Platform.runLater {
-                    data.set(
-                        mQpigs.AC_output_apparent_powerProperty().toString()
-                    )
-                }
-            }
-        }
-        timer.scheduleAtFixedRate(timerTask, 0, 6000)
     }
 
     /** Thread qui va chercher le prix du kWh sur la bdd distante. */

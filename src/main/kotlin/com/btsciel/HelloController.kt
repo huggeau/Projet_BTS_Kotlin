@@ -4,6 +4,7 @@ import com.btsciel.Utils.Wks
 import com.btsciel.models.ModelQPIGS
 import com.btsciel.timer.TimerData
 import javafx.application.Platform
+import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
@@ -49,7 +50,12 @@ class HelloController : Initializable {
     override fun initialize(location: java.net.URL?, resources: ResourceBundle?) {
         blockPanel()
 
-        labelConsoInstant!!.textProperty().bind(data)
+        val condition = data.isNotNull
+            .and(data.isNotEmpty)
+        labelConsoInstant!!.textProperty().bind(Bindings.`when`(condition)
+            .then(data)
+            .otherwise("")
+        )
 
         ButtonAdmin!!.onAction =
             javafx.event.EventHandler { event: javafx.event.ActionEvent? ->
@@ -91,7 +97,8 @@ class HelloController : Initializable {
         timer.runThreadRecupDataOnduleur()
         timer.runThreadMoyenneEnergie()
         timer.runThreadEnvoieBddDistante()
-        timer.runThreadModifData(mQPIGS)
         timer.runThreadRoutePrix()
+        timer.runThreadParamOnduleur()
+        timer.runThreadWarningOnduleur()
     }
 }

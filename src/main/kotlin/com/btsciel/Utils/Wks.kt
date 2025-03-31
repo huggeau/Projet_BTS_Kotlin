@@ -100,8 +100,8 @@ class Wks : LiaisonSerie() {
         try {
             Thread.sleep(500)
             val tram = super.lireTrame(super.detecteSiReception())
-            /*String tramString = new String(tram);
-            System.out.print(tramString);*/
+            val tramString = java.lang.String(tram);
+            print(tramString);
             when (tram!!.size) {
                 40 -> modelQPIWS(tram)
                 104 -> modelQPIRI(tram)
@@ -334,6 +334,9 @@ class Wks : LiaisonSerie() {
         })
     }
 
+    /**
+     * Méthode qui permet de retourner le modelQPIGS utilisé par l'onduleur afin d'utiliser le même objet modelQPIGS
+     * */
     fun getModelQPIGS(): ModelQPIGS {
         return modelQPIGS
     }
