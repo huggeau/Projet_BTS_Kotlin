@@ -124,7 +124,6 @@ class HelloController : Initializable {
     }
 
     private fun ouvrirNouvelleFenetre(){
-        try{
             val loader = FXMLLoader(javaClass.getResource("/com.btsciel/login-view.fxml"))
             val root = loader.load<Parent>()
 
@@ -135,9 +134,6 @@ class HelloController : Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show()
 
-        }catch (ex: Exception){
-            println(ex.message)
-        }
     }
 
 

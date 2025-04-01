@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.btsciel.controller.ParametresController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="150.0" prefWidth="452.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.btsciel.controller.ParametresController">
+    <Label layoutX="3.0" layoutY="14.0" text="Lattitude" />
+    <Label layoutY="87.0" text="\@ Serveur" />
+    <Label layoutX="221.0" layoutY="14.0" text="Longitude" />
+    <Label layoutX="235.0" layoutY="87.0" text="MAC" />
+    <TextField fx:id="textFieldLattitude" layoutX="54.0" layoutY="10.0" />
+    <TextField fx:id="textFieldAddServeur" layoutX="61.0" layoutY="83.0" />
+    <TextField fx:id="textFieldLongitude" layoutX="275.0" layoutY="10.0" />
+    <TextField fx:id="textFieldMAC" disable="true" layoutX="275.0" layoutY="83.0" />
+   <Button fx:id="buttonValidate" layoutX="103.0" layoutY="111.0" mnemonicParsing="false" text="Valider" />
+   <Button fx:id="buttonCancel" layoutX="324.0" layoutY="111.0" mnemonicParsing="false" text="Annuler" />
 </AnchorPane>
