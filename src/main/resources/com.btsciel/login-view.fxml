@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="194.0" prefWidth="295.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.btsciel.controller.LoginController">
+    <Label layoutX="29.0" layoutY="37.0" text="Identifiant" />
+    <Label layoutX="30.0" layoutY="104.0" text="Mot de Passe" />
+    <TextField fx:id="txtFieldUsername" layoutX="110.0" layoutY="33.0" />
+    <TextField fx:id="txtFieldPassword" layoutX="110.0" layoutY="100.0" />
+    <Button fx:id="buttonValidate" layoutX="30.0" layoutY="145.0" mnemonicParsing="false" text="Valider" />
+    <Button fx:id="buttonCancel" layoutX="207.0" layoutY="145.0" mnemonicParsing="false" text="Annuler" />
+</AnchorPane>

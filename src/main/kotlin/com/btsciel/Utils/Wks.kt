@@ -326,6 +326,7 @@ class Wks : LiaisonSerie() {
                 }
             }
         }
+
         retrofit.api.postConso(modelConsoOnduleur)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
             override fun onResponse(call: Call<Api_Retrofit?>, response: Response<Api_Retrofit?>) {
                 if (response.isSuccessful && response.body() != null) {

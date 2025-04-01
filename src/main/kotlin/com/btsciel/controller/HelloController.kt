@@ -1,4 +1,4 @@
-package com.btsciel
+package com.btsciel.controller
 
 import com.btsciel.Utils.Wks
 import com.btsciel.models.ModelQPIGS
@@ -8,14 +8,18 @@ import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
+import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
+import javafx.scene.Parent
+import javafx.scene.Scene
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
 import javafx.scene.control.SplitPane
 import javafx.scene.control.TextField
 import javafx.scene.layout.AnchorPane
-import java.sql.SQLException
+import javafx.stage.Modality
+import javafx.stage.Stage
 import java.util.*
 
 class HelloController : Initializable {
@@ -65,11 +69,7 @@ class HelloController : Initializable {
 
         ButtonAdmin!!.onAction =
             javafx.event.EventHandler { event: javafx.event.ActionEvent? ->
-                try {
-                    wks.envoieInfoOnduleur()
-                } catch (e: SQLException) {
-                    System.err.println(e.message)
-                }
+                ouvrirNouvelleFenetre()
             }
 
         launchTimers()
@@ -121,6 +121,23 @@ class HelloController : Initializable {
             }
         }
         timer_binding.scheduleAtFixedRate(timerTaskGraph, 0, 1000)
+    }
+
+    private fun ouvrirNouvelleFenetre(){
+        try{
+            val loader = FXMLLoader(javaClass.getResource("/com.btsciel/login-view.fxml"))
+            val root = loader.load<Parent>()
+
+            val stage = Stage()
+            stage.title = "Login"
+            stage.scene = Scene(root)
+            stage.isResizable = false
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show()
+
+        }catch (ex: Exception){
+            println(ex.message)
+        }
     }
 
 
