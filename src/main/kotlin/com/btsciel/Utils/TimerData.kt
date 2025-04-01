@@ -1,9 +1,5 @@
-package com.btsciel.timer
+package com.btsciel.Utils
 
-import com.btsciel.Utils.Wks
-import com.btsciel.models.ModelQPIGS
-import javafx.application.Platform
-import javafx.beans.property.StringProperty
 import jssc.SerialPortException
 import java.sql.SQLException
 import java.util.*
@@ -78,7 +74,6 @@ class TimerData(wks: Wks) {
     fun runThreadEnvoieBddDistante() {
         val timerTask: TimerTask = object : TimerTask() {
             override fun run() {
-                //todo
                 try {
                     wks.envoieConsoOnduleur()
                 } catch (e: SQLException) {
@@ -87,6 +82,15 @@ class TimerData(wks: Wks) {
             }
         }
         timer.scheduleAtFixedRate(timerTask, 600000, 600000)
+    }
+
+    fun runThreadEnvoieWarningBddDistante(){
+        val timerTask: TimerTask = object : TimerTask() {
+            override fun run() {
+                wks.envoieWarningOnduleur()
+            }
+        }
+        timer.scheduleAtFixedRate(timerTask, 2500, 60000)
     }
 
     /** Thread qui va chercher le prix du kWh sur la bdd distante. */

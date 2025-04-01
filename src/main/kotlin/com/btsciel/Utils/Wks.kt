@@ -95,13 +95,15 @@ class Wks : LiaisonSerie() {
         return b
     }
 
-    /** Est l'évênement qui écoute la réponse de l'onduleur et renvoie la trame sur son modèle respectif en fonction de sa longueur */
+    /** Est l'événement qui écoute la réponse de l'onduleur et renvoie la trame sur son modèle respectif en fonction de sa longueur */
     override fun serialEvent(event: SerialPortEvent) {
         try {
             Thread.sleep(500)
             val tram = super.lireTrame(super.detecteSiReception())
+            /*
             val tramString = java.lang.String(tram);
             print(tramString);
+            */
             when (tram!!.size) {
                 40 -> modelQPIWS(tram)
                 104 -> modelQPIRI(tram)
@@ -182,6 +184,7 @@ class Wks : LiaisonSerie() {
     /** Est le modèle de la requête QPIWS et mets en mémoire chaque info envoyé par l'onduleur */
     private fun modelQPIWS(tram: ByteArray) {
         val s = String(tram, java.nio.charset.StandardCharsets.US_ASCII)
+        val tab = dataBaseRequest.recupInfoOnduleur()
 
         val tab2 = s.substring(1)
         val tab3 = arrayOfNulls<String>(39)
@@ -229,10 +232,12 @@ class Wks : LiaisonSerie() {
         modelQPIWS.a33 = tab3[33]
         modelQPIWS.a34 = tab3[34]
         modelQPIWS.a35 = tab3[35]
+        modelQPIWS.mac = tab?.get(2)
+
     }
 
     /**
-     * Méthode appelée toute les 6s et qui sert à mettre la valeur de consommayion de sortie dans une array list
+     * Méthode appelée toute les 6s et qui sert à mettre la valeur de consommation de sortie dans une array list
      */
     fun putDataInArray() {
         listACOutputApparentPower.add(modelQPIGS.getAC_output_apparent_power())
@@ -328,6 +333,21 @@ class Wks : LiaisonSerie() {
                 }
             }
 
+            override fun onFailure(call: Call<Api_Retrofit?>, throwable: Throwable) {
+//                System.err.println(throwable.message)
+            }
+        })
+    }
+
+    /**
+     * Méthode qui envoie en post les warnings de l'onduleur à la bdd distante. */
+    fun envoieWarningOnduleur(){
+        retrofit.api.postWarning(modelQPIWS)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
+            override fun onResponse(call: Call<Api_Retrofit?>, response: Response<Api_Retrofit?>) {
+                if (response.isSuccessful && response.body() != null){
+                    println(response.body())
+                }
+            }
             override fun onFailure(call: Call<Api_Retrofit?>, throwable: Throwable) {
                 System.err.println(throwable.message)
             }

@@ -37,4 +37,5 @@ class ModelQPIWS {
     var a33: String? = null
     var a34: String? = null
     var a35: String? = null
+    var mac: String? = null
 }

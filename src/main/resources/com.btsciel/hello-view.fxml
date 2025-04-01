@@ -13,8 +13,10 @@
 <AnchorPane fx:id="fenetreMere" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="349.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.btsciel.HelloController">
     <SplitPane fx:id="splitplane1" dividerPositions="0.33073929961089493" orientation="VERTICAL" prefHeight="345.0" prefWidth="600.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-            <Button fx:id="ButtonAdmin" layoutY="1.0" mnemonicParsing="false" text="Admin" />
-         <TextField fx:id="TxtFieldWarning" alignment="CENTER" disable="true" editable="false" layoutX="146.0" prefHeight="110.0" prefWidth="448.0" text="Onduleur EVO Hybride King-5000 PIP30" />
+         <children>
+               <Button fx:id="ButtonAdmin" layoutY="1.0" mnemonicParsing="false" text="Admin" />
+            <TextField fx:id="TextFieldWarning" alignment="CENTER" disable="true" layoutX="133.0" prefHeight="110.0" prefWidth="464.0" text="je suis GOISOT hugo" />
+         </children>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="597.0">
             <SplitPane fx:id="splitplane2" dividerPositions="0.24497767857142858" prefHeight="235.0" prefWidth="600.0">

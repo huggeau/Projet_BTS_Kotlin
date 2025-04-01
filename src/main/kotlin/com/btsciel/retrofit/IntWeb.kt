@@ -3,6 +3,7 @@ package com.btsciel.retrofit
 import com.btsciel.Pojo.PojoPrix
 import com.btsciel.models.ModelConsoOnduleur
 import com.btsciel.models.ModelInfoOnduleur
+import com.btsciel.models.ModelQPIWS
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -18,6 +19,9 @@ interface IntWeb {
     @POST("/onduleur/addInfoOnduleur")
     fun postInfo(@Body infoOnduleur: ModelInfoOnduleur?): Call<Api_Retrofit?>?
 
+    @POST("/onduleur/warning")
+    fun postWarning(@Body modeQPIWS: ModelQPIWS?): Call<Api_Retrofit?>?
+
 //    @GET("/onduleur/parametreOnduleur")
-    //    Call<PojoParamOndu> getParamOndu();
+    // fun getParamOndu(): Call<PojoParam?>?
 }

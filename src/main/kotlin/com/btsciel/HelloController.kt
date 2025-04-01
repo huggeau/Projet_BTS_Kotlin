@@ -2,7 +2,7 @@ package com.btsciel
 
 import com.btsciel.Utils.Wks
 import com.btsciel.models.ModelQPIGS
-import com.btsciel.timer.TimerData
+import com.btsciel.Utils.TimerData
 import javafx.application.Platform
 import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleStringProperty
@@ -13,19 +13,21 @@ import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
 import javafx.scene.control.SplitPane
+import javafx.scene.control.TextField
 import javafx.scene.layout.AnchorPane
 import java.sql.SQLException
 import java.util.*
 
 class HelloController : Initializable {
+
     private val absolutePositionPanel1 = .33
     private val absolutePositionPanel2 = .25
     private val timer_binding: Timer = Timer()
 
     @FXML
-    var labelConsoInstant: javafx.scene.control.Label? = null
+    var TextFieldWarning: TextField? = null
     @FXML
-    var TxtFieldWarning: javafx.scene.control.TextField? = null
+    var labelConsoInstant: javafx.scene.control.Label? = null
     @FXML
     var ButtonAdmin: javafx.scene.control.Button? = null
     @FXML
@@ -50,12 +52,16 @@ class HelloController : Initializable {
     override fun initialize(location: java.net.URL?, resources: ResourceBundle?) {
         blockPanel()
 
+        /*
+        permet au binding d'éviter d'afficher et les valeurs null et les valeurs vide.
+         */
         val condition = data.isNotNull
             .and(data.isNotEmpty)
         labelConsoInstant!!.textProperty().bind(Bindings.`when`(condition)
             .then(data)
             .otherwise("")
         )
+
 
         ButtonAdmin!!.onAction =
             javafx.event.EventHandler { event: javafx.event.ActionEvent? ->
@@ -68,14 +74,7 @@ class HelloController : Initializable {
 
         launchTimers()
 
-        val timerTask: TimerTask = object : TimerTask() {
-            override fun run() {
-                Platform.runLater {
-                    data.set(mQPIGS.AC_output_apparent_powerProperty().value.toString())
-                }
-            }
-        }
-        timer_binding.scheduleAtFixedRate(timerTask, 0, 1000)
+
     }
 
     /**
@@ -100,5 +99,29 @@ class HelloController : Initializable {
         timer.runThreadRoutePrix()
         timer.runThreadParamOnduleur()
         timer.runThreadWarningOnduleur()
+        timer.runThreadEnvoieWarningBddDistante()
+        threadAffichageDynamique()
     }
+
+    private fun threadAffichageDynamique(){
+        val timerTaskConso: TimerTask = object : TimerTask() {
+            override fun run() {
+                Platform.runLater {
+                    data.set(mQPIGS.AC_output_apparent_powerProperty().value.toString())
+                }
+            }
+        }
+        timer_binding.scheduleAtFixedRate(timerTaskConso, 0, 1000)
+
+        val timerTaskGraph = object : TimerTask() {
+            override fun run() {
+                Platform.runLater {
+
+                }
+            }
+        }
+        timer_binding.scheduleAtFixedRate(timerTaskGraph, 0, 1000)
+    }
+
+
 }
