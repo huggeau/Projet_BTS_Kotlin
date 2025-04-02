@@ -1,3 +1,3 @@
 package com.btsciel.models
 
-class ModelLoginAdmin(var username: String, var password: String)
+class ModelLoginAdmin(var identifiant: String, var mdp: String)
