@@ -3,6 +3,7 @@ package com.btsciel.controller
 import com.btsciel.RequeteBdd.DataBaseRequest
 import com.btsciel.models.ModelInfoOnduleur
 import com.btsciel.retrofit.Api_Retrofit
+import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.Button
@@ -44,7 +45,10 @@ class ParametresController : Initializable {
             retrofit.api.postInfo(modelInfoOnduleur)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
 
                 override fun onResponse(p0: Call<Api_Retrofit?>, p1: Response<Api_Retrofit?>) {
-                    // TODO: don't need anything in return
+                    Platform.runLater {
+                        val stage = buttonValidateParam!!.scene.window as Stage
+                        stage.close()
+                    }
                 }
 
                 override fun onFailure(p0: Call<Api_Retrofit?>, p1: Throwable) {

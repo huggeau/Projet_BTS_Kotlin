@@ -28,4 +28,5 @@ interface IntWeb {
 
 //    @GET("/onduleur/parametreOnduleur")
     // fun getParamOndu(): Call<PojoParam?>?
+
 }
