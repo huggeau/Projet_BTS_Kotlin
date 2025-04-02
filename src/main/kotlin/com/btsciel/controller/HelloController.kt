@@ -15,6 +15,7 @@ import javafx.scene.Scene
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
+import javafx.scene.control.Button
 import javafx.scene.control.SplitPane
 import javafx.scene.control.TextField
 import javafx.scene.layout.AnchorPane
@@ -33,7 +34,7 @@ class HelloController : Initializable {
     @FXML
     var labelConsoInstant: javafx.scene.control.Label? = null
     @FXML
-    var ButtonAdmin: javafx.scene.control.Button? = null
+    var ButtonAdmin: Button? = null
     @FXML
     var idLineChart: LineChart<Number, Number>? = null
     @FXML
@@ -131,7 +132,7 @@ class HelloController : Initializable {
             stage.title = "Login"
             stage.scene = Scene(root)
             stage.isResizable = false
-            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initModality(Modality.APPLICATION_MODAL)
             stage.show()
 
     }

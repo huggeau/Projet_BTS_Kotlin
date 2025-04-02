@@ -19,9 +19,9 @@ import java.util.*
 
 class LoginController : Initializable {
     @FXML
-    var buttonValidate: Button? = null
+    var buttonValidateLogin: Button? = null
     @FXML
-    var buttonCancel: Button? = null
+    var buttonCancelLogin: Button? = null
     @FXML
     var txtFieldPassword: TextField? = null
     @FXML
@@ -30,12 +30,12 @@ class LoginController : Initializable {
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
 
-        buttonCancel?.setOnAction { event ->
-            val stage = buttonCancel!!.scene.window as Stage
+        buttonCancelLogin?.setOnAction { event ->
+            val stage = buttonCancelLogin!!.scene.window as Stage
             stage.close()
         }
 
-        buttonValidate?.setOnAction { event ->
+        buttonValidateLogin?.setOnAction { event ->
             loginValidating()
         }
     }
@@ -47,6 +47,9 @@ class LoginController : Initializable {
             override fun onResponse(call: Call<Api_Retrofit?>, response: Response<Api_Retrofit?>) {
                 if (response.isSuccessful && response.body() != null){
                     Platform.runLater{
+                        val stageLogin = buttonValidateLogin!!.scene.window as Stage
+                        stageLogin.close()
+
                         val loader = FXMLLoader(javaClass.getResource("/com.btsciel/Parametres-view.fxml"))
                         val root = loader.load<Parent>()
                         val stage = Stage()
@@ -55,11 +58,7 @@ class LoginController : Initializable {
                         stage.isResizable = false
                         stage.initModality(Modality.APPLICATION_MODAL)
                         stage.show()
-
-                        val stageLogin = buttonValidate!!.scene.window as Stage
-                        stageLogin.close()
                     }
-
                 }
                 else{
                     Platform.runLater {

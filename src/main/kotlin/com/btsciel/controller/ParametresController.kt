@@ -1,5 +1,6 @@
 package com.btsciel.controller
 
+import com.btsciel.RequeteBdd.DataBaseRequest
 import com.btsciel.models.ModelInfoOnduleur
 import com.btsciel.retrofit.Api_Retrofit
 import javafx.fxml.FXML
@@ -14,39 +15,42 @@ import java.util.*
 
 class ParametresController : Initializable {
     @FXML
-    val buttonCancel: Button? = null
+    var buttonCancelParam: Button? = null
     @FXML
-    val buttonValidate: Button? = null
+    var buttonValidateParam: Button? = null
     @FXML
-    val textFieldLattitude: TextField? = null
+    var textFieldLatitude: TextField? = null
     @FXML
-    val textFieldAddServeur: TextField? = null
+    var textFieldAddServeur: TextField? = null
     @FXML
-    val textFieldLongitude: TextField? = null
+    var textFieldLongitude: TextField? = null
     @FXML
-    val textFieldMAC: TextField? = null
+    var textFieldMAC: TextField? = null
 
+    var dataBaseRequest: DataBaseRequest? = DataBaseRequest()
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
-        buttonCancel?.setOnAction { event ->
-            val stage = buttonCancel.scene.window as Stage
+        textFieldMAC?.text = dataBaseRequest?.recupInfoOnduleur()?.get(2)
+
+        buttonCancelParam?.setOnAction { event ->
+            val stage = buttonCancelParam!!.scene.window as Stage
             stage.close()
+            println("boutton cancer clique")
         }
 
-        buttonValidate?.setOnAction { event ->
+        buttonValidateParam?.setOnAction { event ->
             val retrofit = Api_Retrofit()
-            val modelInfoOnduleur = ModelInfoOnduleur(textFieldLattitude!!.text, textFieldLongitude!!.text, textFieldMAC!!.text)
+            val modelInfoOnduleur = ModelInfoOnduleur(textFieldLatitude!!.text, textFieldLongitude!!.text, textFieldMAC!!.text)
             retrofit.api.postInfo(modelInfoOnduleur)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
 
                 override fun onResponse(p0: Call<Api_Retrofit?>, p1: Response<Api_Retrofit?>) {
-                    TODO("Not yet implemented")
+                    // TODO: don't need anything in return
                 }
 
                 override fun onFailure(p0: Call<Api_Retrofit?>, p1: Throwable) {
-                    TODO("Not yet implemented")
+                    System.err.println(p1.message)
                 }
             })
-
         }
     }
 }

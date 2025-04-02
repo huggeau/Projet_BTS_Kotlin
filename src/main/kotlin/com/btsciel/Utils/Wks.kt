@@ -280,33 +280,6 @@ class Wks : LiaisonSerie() {
         })
     }
 
-    /** Envoie les informations de l'onduleur, qui sont sa position et son @Mac */
-    @Throws(SQLException::class)
-    fun envoieInfoOnduleur() {
-        val tab: Array<String?>? = dataBaseRequest.recupInfoOnduleur()
-        val modelInfoOnduleur: ModelInfoOnduleur? = tab?.get(0)?.let {
-            tab[1]?.let { it1 ->
-                tab[2]?.let { it2 ->
-                    ModelInfoOnduleur(
-                        it,
-                        it1, it2
-                    )
-                }
-            }
-        }
-        retrofit.api.postInfo(modelInfoOnduleur)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
-            override fun onResponse(call: Call<Api_Retrofit?>, response: Response<Api_Retrofit?>) {
-                if (response.isSuccessful && response.body() != null) {
-                    println(response.body())
-                }
-            }
-
-            override fun onFailure(call: Call<Api_Retrofit?>, throwable: Throwable) {
-                System.err.println(throwable.message)
-            }
-        })
-    }
-
     /** Envoie la conso de l'onduleur a la bdd distante. */
     @Throws(SQLException::class)
     fun envoieConsoOnduleur() {
