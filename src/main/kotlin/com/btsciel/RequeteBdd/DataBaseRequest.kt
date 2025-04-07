@@ -4,8 +4,8 @@ import java.sql.*
 
 
 class DataBaseRequest {
-    /** Chemin vers la bdd pour le connecteur (à modifier, car chemin absolu sur windows pas linux) */
-    //todo
+    /** Chemin vers la bdd pour le connecteur */
+    // TODO: changer le chemin d'acces a la bdd local
     //     private String connector = "jdbc:sqlite:/home/install/BddLocal.sqlite";
     private val connector = "jdbc:sqlite:C:\\Users\\hugo\\OneDrive\\Projet\\BddLocal\\BddLocal.sqlite"
 
@@ -22,11 +22,18 @@ class DataBaseRequest {
         val timestamp = Timestamp(System.currentTimeMillis())
 
         if (conn != null) {
-            val query = "UPDATE Data SET Tarif = ?, Energie = ?, horodatage = ? WHERE id=4"
+            val query = """
+                INSERT INTO Data (id, Tarif, Energie, horodatage) VALUES (NULL, ? , ?, ?) 
+                ON CONFLICT DO UPDATE SET Tarif = ?, Energie = ?, horodatage = ?
+                """.trimIndent()
+
             val ps = conn!!.prepareStatement(query)
             ps.setDouble(1, recupPrix())
             ps.setDouble(2, energie.toDouble())
             ps.setString(3, timestamp.toString())
+            ps.setDouble(4, recupPrix())
+            ps.setDouble(5, energie.toDouble())
+            ps.setString(6, timestamp.toString())
             ps.executeUpdate()
         }
     }
@@ -50,16 +57,17 @@ class DataBaseRequest {
 
     /** Sert à mettre à jour le prix dans la bdd. */
     @Throws(SQLException::class)
-    fun updatetPrix(prix: String?) {
+    fun updatetPrix(prix: String) {
         if (conn != null) {
-            val query = "UPDATE Prix SET prix=? WHERE id=1"
+            val query = "INSERT INTO Prix (id,prix) VALUES (null, ?) ON CONFLICT DO UPDATE SET prix=?"
             val ps = conn!!.prepareStatement(query)
-            ps.setDouble(1, prix!!.toDouble())
+            ps.setDouble(1, prix.toDouble())
+            ps.setDouble(2, prix.toDouble())
             ps.executeUpdate()
         }
     }
 
-    /** Récupère les info de l'onduleur stocké dans la bdd. */
+    /** Récupère les infos de l'onduleur stocké dans la bdd. */
     @Throws(SQLException::class)
     fun recupInfoOnduleur(): Array<String?>? {
         val tabInfo = arrayOfNulls<String>(3)
@@ -93,5 +101,25 @@ class DataBaseRequest {
             return tabInfo
         }
         return null
+    }
+
+    /** Sert à mettre à jour les info de l'onduleur*/
+    @Throws(SQLException::class)
+    fun insertParam(latitude: String?, longitude: String?, addMac: String?){
+        if (conn != null) {
+            val query = """
+                INSERT INTO information (id, latitude, longitude, AddMac) VALUES (null, ?, ?, ?)
+                 ON CONFLICT DO UPDATE SET latitude=?, longitude=?, AddMac=?
+                 """.trimIndent()
+
+            val ps = conn!!.prepareStatement(query)
+            ps.setDouble(1, latitude!!.toDouble())
+            ps.setDouble(2, longitude!!.toDouble())
+            ps.setString(3, addMac)
+            ps.setDouble(4, latitude.toDouble())
+            ps.setDouble(5, longitude.toDouble())
+            ps.setString(6, addMac)
+            ps.executeUpdate()
+        }
     }
 }
