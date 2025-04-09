@@ -1,7 +1,6 @@
 package com.btsciel.controller
 
 import com.btsciel.RequeteBdd.DataBaseRequest
-import com.btsciel.Utils.ConfigServeur
 import com.btsciel.models.ModelInfoOnduleur
 import com.btsciel.retrofit.Api_Retrofit
 import javafx.application.Platform
@@ -40,11 +39,6 @@ class ParametresController : Initializable {
         }
 
         buttonValidateParam?.setOnAction { event ->
-            val configServeur = ConfigServeur()
-            val config = configServeur.loadConfig()
-            config.addServeur = textFieldAddServeur!!.text
-            configServeur.saveConfig(config)
-
             dataBaseRequest?.insertParam(textFieldLatitude!!.text, textFieldLongitude!!.text, textFieldMAC!!.text)
 
             val retrofit = Api_Retrofit()
