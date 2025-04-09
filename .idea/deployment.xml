@@ -5,7 +5,7 @@
       <paths name="Onduleur-10.0.4.11">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/Desktop" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

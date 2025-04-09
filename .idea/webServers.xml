@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="b76dc618-e40d-4d79-84f2-5761fa5f7941" name="Onduleur-10.0.4.11">
-        <fileTransfer rootFolder="/home/install/Desktop" accessType="SFTP" host="10.0.4.11" port="22" sshConfigId="888e8dc5-a939-4a18-ac48-098806bd5a51" sshConfig="install@10.0.4.11:22 password">
+        <fileTransfer rootFolder="/home/install" accessType="SFTP" host="10.0.4.11" port="22" sshConfigId="888e8dc5-a939-4a18-ac48-098806bd5a51" sshConfig="install@10.0.4.11:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" isUseSudo="true" />
           </advancedOptions>

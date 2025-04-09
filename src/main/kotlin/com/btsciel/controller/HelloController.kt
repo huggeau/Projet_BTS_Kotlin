@@ -6,6 +6,7 @@ import com.btsciel.models.ModelQPIGS
 import com.btsciel.Utils.TimerData
 import javafx.application.Platform
 import javafx.beans.binding.Bindings
+import javafx.beans.binding.BooleanBinding
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
@@ -20,6 +21,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.SplitPane
 import javafx.scene.control.TextField
+import javafx.scene.layout.AnchorPane
 import javafx.stage.Modality
 import javafx.stage.Stage
 import java.util.*
@@ -30,6 +32,8 @@ class HelloController : Initializable {
     private val absolutePositionPanel2 = .25
     private val timer_binding: Timer = Timer()
 
+    @FXML
+    var anchorPane: AnchorPane? = null
     @FXML
     var TextFieldWarning: TextField? = null
     @FXML
@@ -59,22 +63,31 @@ class HelloController : Initializable {
     var data:SimpleStringProperty= SimpleStringProperty()
     var db: DataBaseRequest = DataBaseRequest()
     private var secondeData: SimpleStringProperty = SimpleStringProperty()
+    private lateinit var condition: BooleanBinding
 
 
     override fun initialize(location: java.net.URL?, resources: ResourceBundle?) {
         blockPanel()
 
+
+
         /*
         permet au binding d'éviter d'afficher et les valeurs null et les valeurs vide.
          */
-        val condition = data.isNotNull
+        condition = data.isNotNull
             .and(data.isNotEmpty)
         labelConsoInstant!!.textProperty().bind(Bindings.`when`(condition)
             .then(data)
             .otherwise("")
         )
 
-        labelGainInstant!!.textProperty().bind(secondeData)
+        condition = secondeData.isNotNull
+            .and(secondeData.isNotEmpty)
+        labelGainInstant!!.textProperty().bind(Bindings.`when`(condition)
+            .then(secondeData)
+            .otherwise("")
+        )
+
 
         ButtonAdmin!!.onAction =
             javafx.event.EventHandler { event: javafx.event.ActionEvent? ->
@@ -82,6 +95,7 @@ class HelloController : Initializable {
             }
 
         launchTimers()
+
     }
 
     /**
@@ -126,7 +140,10 @@ class HelloController : Initializable {
                     val prix = db.recupPrix()
                     val conso = mQPIGS.getAC_output_active_power()
 
-                    val gain = prix * conso.toDouble()
+                    var gain = 0.0
+                    if(conso.isNotEmpty()){
+                        gain =  prix * conso.toDouble()
+                    }
 
                     secondeData.set("%.2f €".format(gain))
                 }
@@ -148,5 +165,14 @@ class HelloController : Initializable {
 
     }
 
+    private fun autoResizeScene(){
+        val stage = anchorPane!!.scene.window as Stage
+        stage.widthProperty().addListener { observable, oldValue, newValue ->
+            anchorPane?.prefWidth = stage.width
+        }
+        stage.heightProperty().addListener { observable, oldValue, newValue ->
+            anchorPane?.prefHeight = stage.height
+        }
 
+    }
 }

@@ -9,38 +9,37 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/23.0.1"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.btsciel.controller.HelloController">
-    <SplitPane fx:id="splitplane1" dividerPositions="0.33073929961089493" orientation="VERTICAL" prefHeight="345.0"
-               prefWidth="600.0">
+<AnchorPane fx:id="anchorPane" prefWidth="0.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.btsciel.controller.HelloController">
+    <SplitPane fx:id="splitplane1" dividerPositions="0.33073929961089493" orientation="VERTICAL" prefHeight="345.0" prefWidth="600.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-            <Button fx:id="ButtonAdmin" layoutY="1.0" mnemonicParsing="false" text="Admin"/>
-            <TextField fx:id="TextFieldWarning" alignment="CENTER" disable="true" layoutX="133.0"
-                       prefHeight="110.0" prefWidth="464.0" text="je suis GOISOT hugo"/>
+            <Button fx:id="ButtonAdmin" layoutY="1.0" mnemonicParsing="false" text="Admin" />
+            <TextField fx:id="TextFieldWarning" alignment="CENTER" disable="true" layoutX="133.0" prefHeight="110.0" prefWidth="464.0" promptText="Warnings" />
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="597.0">
-            <SplitPane fx:id="splitplane2" dividerPositions="0.24497767857142858" prefHeight="235.0"
-                       prefWidth="600.0">
+            <SplitPane fx:id="splitplane2" dividerPositions="0.24497767857142858" prefHeight="235.0" prefWidth="600.0">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="360.0" prefWidth="143.0">
-                    <Label fx:id="labelConsoInstant" layoutX="58.0" layoutY="35.0" text="Label"/>
-                    <Label fx:id="labelGainInstant" layoutX="58.0" layoutY="77.0" text="Label"/>
-                    <Label fx:id="labelGainJournalier" layoutX="58.0" layoutY="132.0" text="Label"/>
-                    <Label fx:id="labelGainMensuel" layoutX="58.0" layoutY="177.0" text="Label"/>
+                    <Label fx:id="labelConsoInstant" layoutX="58.0" layoutY="35.0" />
+                    <Label fx:id="labelGainInstant" layoutX="58.0" layoutY="77.0" />
+                    <Label fx:id="labelGainJournalier" layoutX="58.0" layoutY="132.0" />
+                    <Label fx:id="labelGainMensuel" layoutX="58.0" layoutY="177.0" />
+               <Label layoutX="21.0" layoutY="14.0" text="consommation (W)" />
+               <Label layoutX="19.0" layoutY="59.0" text="gain instantanné (€)" />
+               <Label layoutX="25.0" layoutY="116.0" text="gain journalier (€)" />
+               <Label layoutX="28.0" layoutY="159.0" text="gain mensuel (€)" />
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="263.0" prefWidth="451.0">
                     <LineChart fx:id="idLineChart" layoutY="29.0" prefHeight="203.0" prefWidth="448.0">
                         <xAxis>
-                            <CategoryAxis fx:id="idXAxis" side="BOTTOM"/>
+                            <CategoryAxis fx:id="idXAxis" side="BOTTOM" />
                         </xAxis>
                         <yAxis>
-                            <NumberAxis fx:id="idYAxis" side="LEFT"/>
+                            <NumberAxis fx:id="idYAxis" side="LEFT" />
                         </yAxis>
                     </LineChart>
-                    <ComboBox layoutX="149.0" layoutY="1.0" prefWidth="150.0" promptText="Graphe "/>
+                    <ComboBox layoutX="149.0" layoutY="1.0" prefWidth="150.0" promptText="Graphe " />
                 </AnchorPane>
             </SplitPane>
         </AnchorPane>
     </SplitPane>
-</Pane>
+</AnchorPane>

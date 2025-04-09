@@ -6,7 +6,7 @@ import java.sql.*
 class DataBaseRequest {
     /** Chemin vers la bdd pour le connecteur */
     // TODO: changer le chemin d'acces a la bdd local
-    //     private String connector = "jdbc:sqlite:/home/install/BddLocal.sqlite";
+//    private val connector = "jdbc:sqlite:/home/install/BddLocal.sqlite";
     private val connector = "jdbc:sqlite:C:\\Users\\hugo\\OneDrive\\Projet\\BddLocal\\BddLocal.sqlite"
 
     /** Vérifie si la bdd est joignable */
