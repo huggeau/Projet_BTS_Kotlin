@@ -1,6 +1,7 @@
 package com.btsciel.controller
 
 import com.btsciel.RequeteBdd.DataBaseRequest
+import com.btsciel.Utils.ConfigServeur
 import com.btsciel.models.ModelInfoOnduleur
 import com.btsciel.retrofit.Api_Retrofit
 import javafx.application.Platform
@@ -39,14 +40,23 @@ class ParametresController : Initializable {
         }
 
         buttonValidateParam?.setOnAction { event ->
+            val configServeur = ConfigServeur()
+            val config = configServeur.loadConfig()
+            config.addServeur = textFieldAddServeur!!.text
+            configServeur.saveConfig(config)
+
+            dataBaseRequest?.insertParam(textFieldLatitude!!.text, textFieldLongitude!!.text, textFieldMAC!!.text)
+
             val retrofit = Api_Retrofit()
             val modelInfoOnduleur = ModelInfoOnduleur(textFieldLatitude!!.text, textFieldLongitude!!.text, textFieldMAC!!.text)
             retrofit.api.postInfo(modelInfoOnduleur)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
 
                 override fun onResponse(p0: Call<Api_Retrofit?>, p1: Response<Api_Retrofit?>) {
-                    Platform.runLater {
-                        val stage = buttonValidateParam!!.scene.window as Stage
-                        stage.close()
+                    if (p1.isSuccessful) {
+                        Platform.runLater {
+                            val stage = buttonValidateParam!!.scene.window as Stage
+                            stage.close()
+                        }
                     }
                 }
 

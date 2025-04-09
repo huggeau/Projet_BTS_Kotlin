@@ -5,7 +5,7 @@ import java.sql.*
 
 class DataBaseRequest {
     /** Chemin vers la bdd pour le connecteur */
-    //todo
+    // TODO: changer le chemin d'acces a la bdd local
     //     private String connector = "jdbc:sqlite:/home/install/BddLocal.sqlite";
     private val connector = "jdbc:sqlite:C:\\Users\\hugo\\OneDrive\\Projet\\BddLocal\\BddLocal.sqlite"
 
@@ -93,5 +93,25 @@ class DataBaseRequest {
             return tabInfo
         }
         return null
+    }
+
+    /** Sert à mettre à jour les info de l'onduleur*/
+    @Throws(SQLException::class)
+    fun insertParam(latitude: String?, longitude: String?, addMac: String?){
+        if (conn != null) {
+            val query = """
+                INSERT INTO information (id, latitude, longitude, AddMac) VALUES (null, ?, ?, ?)
+                 ON CONFLICT DO UPDATE SET latitude=?, longitude=?, AddMac=?
+                 """.trimIndent()
+
+            val ps = conn!!.prepareStatement(query)
+            ps.setDouble(1, latitude!!.toDouble())
+            ps.setDouble(2, longitude!!.toDouble())
+            ps.setString(3, addMac)
+            ps.setDouble(4, latitude.toDouble())
+            ps.setDouble(5, longitude.toDouble())
+            ps.setString(6, addMac)
+            ps.executeUpdate()
+        }
     }
 }
