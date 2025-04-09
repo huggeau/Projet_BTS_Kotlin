@@ -126,8 +126,8 @@ class Wks : LiaisonSerie() {
         modelQPIGS.grid_frequency = tab2[1]
         modelQPIGS.aC_output_voltage = tab2[2]
         modelQPIGS.aC_output_frequency = tab2[3]
-        modelQPIGS.setAC_output_apparent_power(tab2[4])
-        modelQPIGS.aC_output_active_power = tab2[5]
+        modelQPIGS.AC_output_apparent_power = tab2[4]
+        modelQPIGS.setAC_output_active_power(tab2[5])
         modelQPIGS.output_load_percent = tab2[6]
         modelQPIGS.bus_voltage = tab2[7]
         modelQPIGS.battery_voltage = tab2[8]
@@ -240,7 +240,7 @@ class Wks : LiaisonSerie() {
      * Méthode appelée toute les 6s et qui sert à mettre la valeur de consommation de sortie dans une array list
      */
     fun putDataInArray() {
-        listACOutputApparentPower.add(modelQPIGS.getAC_output_apparent_power())
+        listACOutputApparentPower.add(modelQPIGS.getAC_output_active_power())
     }
 
     /**

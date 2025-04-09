@@ -7,8 +7,8 @@ class ModelQPIGS {
     var grid_frequency: String? = null
     var aC_output_voltage: String? = null
     var aC_output_frequency: String? = null
-    private val AC_output_apparent_power = SimpleStringProperty(" ")
-    var aC_output_active_power: String? = null
+    var AC_output_apparent_power: String? = null
+    private val AC_output_active_power: SimpleStringProperty = SimpleStringProperty("")
     var output_load_percent: String? = null
     var bus_voltage: String? = null
     var battery_voltage: String? = null
@@ -27,16 +27,16 @@ class ModelQPIGS {
 
 
     /** Celles qui sont utiles */
-    fun getAC_output_apparent_power(): String {
-        return AC_output_apparent_power.value
+    fun getAC_output_active_power(): String {
+        return AC_output_active_power.value
     }
 
-    fun setAC_output_apparent_power(AC_output_apparent_power: String?) {
-        this.AC_output_apparent_power.set(AC_output_apparent_power)
+    fun setAC_output_active_power(AC_output_active_power: String?) {
+        this.AC_output_active_power.set(AC_output_active_power)
     }
 
-    fun AC_output_apparent_powerProperty(): SimpleStringProperty {
-        return AC_output_apparent_power
+    fun AC_output_active_powerProperty(): SimpleStringProperty {
+        return AC_output_active_power
     }
     /** Fin de celles qui sont utiles */
 }

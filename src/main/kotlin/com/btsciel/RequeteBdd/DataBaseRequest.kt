@@ -4,7 +4,7 @@ import java.sql.*
 
 
 class DataBaseRequest {
-    /** Chemin vers la bdd pour le connecteur (à modifier, car chemin absolu sur windows pas linux) */
+    /** Chemin vers la bdd pour le connecteur */
     //todo
     //     private String connector = "jdbc:sqlite:/home/install/BddLocal.sqlite";
     private val connector = "jdbc:sqlite:C:\\Users\\hugo\\OneDrive\\Projet\\BddLocal\\BddLocal.sqlite"
@@ -22,7 +22,7 @@ class DataBaseRequest {
         val timestamp = Timestamp(System.currentTimeMillis())
 
         if (conn != null) {
-            val query = "UPDATE Data SET Tarif = ?, Energie = ?, horodatage = ? WHERE id=4"
+            val query = "UPDATE Data SET Tarif = ?, Energie = ?, horodatage = ?"
             val ps = conn!!.prepareStatement(query)
             ps.setDouble(1, recupPrix())
             ps.setDouble(2, energie.toDouble())
@@ -52,19 +52,19 @@ class DataBaseRequest {
     @Throws(SQLException::class)
     fun updatetPrix(prix: String?) {
         if (conn != null) {
-            val query = "UPDATE Prix SET prix=? WHERE id=1"
+            val query = "UPDATE Prix SET prix=?"
             val ps = conn!!.prepareStatement(query)
             ps.setDouble(1, prix!!.toDouble())
             ps.executeUpdate()
         }
     }
 
-    /** Récupère les info de l'onduleur stocké dans la bdd. */
+    /** Récupère les infos de l'onduleur stocké dans la bdd. */
     @Throws(SQLException::class)
     fun recupInfoOnduleur(): Array<String?>? {
         val tabInfo = arrayOfNulls<String>(3)
         if (conn != null) {
-            val query = "SELECT latitude, longitude, AddMac FROM information WHERE id=1"
+            val query = "SELECT latitude, longitude, AddMac FROM information"
             val ps = conn!!.prepareStatement(query)
             val rs = ps.executeQuery()
             while (rs.next()) {

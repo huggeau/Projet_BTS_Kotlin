@@ -36,7 +36,6 @@ class ParametresController : Initializable {
         buttonCancelParam?.setOnAction { event ->
             val stage = buttonCancelParam!!.scene.window as Stage
             stage.close()
-            println("boutton cancer clique")
         }
 
         buttonValidateParam?.setOnAction { event ->

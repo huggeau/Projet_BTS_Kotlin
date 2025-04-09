@@ -1,5 +1,6 @@
 package com.btsciel.controller
 
+import com.btsciel.RequeteBdd.DataBaseRequest
 import com.btsciel.Utils.Wks
 import com.btsciel.models.ModelQPIGS
 import com.btsciel.Utils.TimerData
@@ -16,9 +17,9 @@ import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
 import javafx.scene.control.Button
+import javafx.scene.control.Label
 import javafx.scene.control.SplitPane
 import javafx.scene.control.TextField
-import javafx.scene.layout.AnchorPane
 import javafx.stage.Modality
 import javafx.stage.Stage
 import java.util.*
@@ -32,7 +33,13 @@ class HelloController : Initializable {
     @FXML
     var TextFieldWarning: TextField? = null
     @FXML
-    var labelConsoInstant: javafx.scene.control.Label? = null
+    var labelConsoInstant: Label? = null
+    @FXML
+    var labelGainInstant: Label? = null
+    @FXML
+    var labelGainJournalier: Label? = null
+    @FXML
+    var labelGainMensuel: Label? = null
     @FXML
     var ButtonAdmin: Button? = null
     @FXML
@@ -42,8 +49,6 @@ class HelloController : Initializable {
     @FXML
     var idYAxis: NumberAxis? = null
     @FXML
-    var fenetreMere: AnchorPane? = null
-    @FXML
     var splitplane1: SplitPane? = null
     @FXML
     var splitplane2: SplitPane? = null
@@ -52,6 +57,8 @@ class HelloController : Initializable {
     private var timer: TimerData = TimerData(wks)
     var mQPIGS: ModelQPIGS = wks.getModelQPIGS()
     var data:SimpleStringProperty= SimpleStringProperty()
+    var db: DataBaseRequest = DataBaseRequest()
+    private var secondeData: SimpleStringProperty = SimpleStringProperty()
 
 
     override fun initialize(location: java.net.URL?, resources: ResourceBundle?) {
@@ -67,6 +74,7 @@ class HelloController : Initializable {
             .otherwise("")
         )
 
+        labelGainInstant!!.textProperty().bind(secondeData)
 
         ButtonAdmin!!.onAction =
             javafx.event.EventHandler { event: javafx.event.ActionEvent? ->
@@ -74,8 +82,6 @@ class HelloController : Initializable {
             }
 
         launchTimers()
-
-
     }
 
     /**
@@ -108,7 +114,7 @@ class HelloController : Initializable {
         val timerTaskConso: TimerTask = object : TimerTask() {
             override fun run() {
                 Platform.runLater {
-                    data.set(mQPIGS.AC_output_apparent_powerProperty().value.toString())
+                    data.set(mQPIGS.AC_output_active_powerProperty().value.toString())
                 }
             }
         }
@@ -117,11 +123,16 @@ class HelloController : Initializable {
         val timerTaskGraph = object : TimerTask() {
             override fun run() {
                 Platform.runLater {
+                    val prix = db.recupPrix()
+                    val conso = mQPIGS.getAC_output_active_power()
 
+                    val gain = prix * conso.toDouble()
+
+                    secondeData.set("%.2f €".format(gain))
                 }
             }
         }
-        timer_binding.scheduleAtFixedRate(timerTaskGraph, 0, 1000)
+        timer_binding.scheduleAtFixedRate(timerTaskGraph, 500, 1000)
     }
 
     private fun ouvrirNouvelleFenetre(){

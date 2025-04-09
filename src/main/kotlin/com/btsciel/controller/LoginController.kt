@@ -53,7 +53,7 @@ class LoginController : Initializable {
                         val loader = FXMLLoader(javaClass.getResource("/com.btsciel/Parametres-view.fxml"))
                         val root = loader.load<Parent>()
                         val stage = Stage()
-                        stage.title = "Parametres onduleur"
+                        stage.title = "Paramètres onduleur"
                         stage.scene = Scene(root)
                         stage.isResizable = false
                         stage.initModality(Modality.APPLICATION_MODAL)
