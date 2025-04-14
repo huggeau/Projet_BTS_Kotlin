@@ -1,10 +1,8 @@
 package com.btsciel.retrofit
 
+import com.btsciel.Pojo.PojoParam
 import com.btsciel.Pojo.PojoPrix
-import com.btsciel.models.ModelConsoOnduleur
-import com.btsciel.models.ModelInfoOnduleur
-import com.btsciel.models.ModelLoginAdmin
-import com.btsciel.models.ModelQPIWS
+import com.btsciel.models.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,7 +24,7 @@ interface IntWeb {
     @POST("/onduleur/loginAdmin")
     fun postLogin(@Body modelLoginAdmin: ModelLoginAdmin?): Call<Api_Retrofit?>?
 
-//    @GET("/onduleur/parametreOnduleur")
-    // fun getParamOndu(): Call<PojoParam?>?
+    @POST("/onduleur/parametreOnduleur")
+    fun getParamOndu(@Body modelSourcePriority: ModelSourcePriority): Call<PojoParam?>?
 
 }

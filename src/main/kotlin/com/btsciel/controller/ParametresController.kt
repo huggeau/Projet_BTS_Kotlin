@@ -31,6 +31,8 @@ class ParametresController : Initializable {
     var dataBaseRequest: DataBaseRequest? = DataBaseRequest()
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
+        textFieldLatitude?.text = dataBaseRequest?.recupInfoOnduleur()?.get(0)
+        textFieldLongitude?.text = dataBaseRequest?.recupInfoOnduleur()?.get(1)
         textFieldMAC?.text = dataBaseRequest?.recupInfoOnduleur()?.get(2)
 
         buttonCancelParam?.setOnAction { event ->

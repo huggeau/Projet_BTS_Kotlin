@@ -1,5 +1,6 @@
 package com.btsciel.Utils
 
+import com.btsciel.Pojo.PojoParam
 import com.btsciel.Pojo.PojoPrix
 import com.btsciel.RequeteBdd.DataBaseRequest
 import com.btsciel.models.*
@@ -13,6 +14,8 @@ class Wks : LiaisonSerie() {
     private val QPIRI = "QPIRI".toByteArray()
     private val QPIGS = "QPIGS".toByteArray()
     private val QPIWS = "QPIWS".toByteArray()
+    private val POP = "POP".toByteArray()
+    private var sourcePriority: String? = null
     private val CR: Byte = 0x0D
     private val modelQPIGS: ModelQPIGS = ModelQPIGS()
     private val modelQPIRI: ModelQPIRI = ModelQPIRI()
@@ -78,6 +81,22 @@ class Wks : LiaisonSerie() {
                     QPIWS,
                     *crcByteQPIWS
                 ), CR
+            )
+        )
+    }
+
+    fun requetePOP(){
+        val crcPOP = crc16King5k(POP)
+        val crcBytePOP = intToByteArray(crcPOP)
+
+        val popNN = org.apache.commons.lang3.ArrayUtils.add(POP, sourcePriority!!.toByte())
+
+        super.ecrire(
+            org.apache.commons.lang3.ArrayUtils.add(
+                org.apache.commons.lang3.ArrayUtils.addAll(
+                    popNN,
+                    *crcBytePOP
+                ),CR
             )
         )
     }
@@ -324,6 +343,23 @@ class Wks : LiaisonSerie() {
             }
             override fun onFailure(call: Call<Api_Retrofit?>, throwable: Throwable) {
                 System.err.println(throwable.message)
+            }
+        })
+    }
+
+    fun getWarningOnduleur(){
+        var modelSourcePriority: ModelSourcePriority = ModelSourcePriority(dataBaseRequest.recupInfoOnduleur()?.get(2))
+        retrofit.api.getParamOndu(modelSourcePriority)?.enqueue(object : retrofit2.Callback<PojoParam?>{
+
+            override fun onResponse(p0: Call<PojoParam?>, p1: Response<PojoParam?>) {
+               if (p1.isSuccessful){
+                   sourcePriority = p1.body()?.sourcePriority
+                   requetePOP()
+               }
+            }
+
+            override fun onFailure(p0: Call<PojoParam?>, p1: Throwable) {
+                System.err.println(p1.message)
             }
         })
     }

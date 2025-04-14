@@ -103,4 +103,13 @@ class TimerData(wks: Wks) {
         }
         timer.scheduleAtFixedRate(timerTask, 0, 300000)
     }
+
+    fun runThreadRouteParam(){
+        val timerTask: TimerTask = object : TimerTask() {
+            override fun run() {
+                wks.getWarningOnduleur()
+            }
+        }
+        timer.scheduleAtFixedRate(timerTask, 0, 6000)
+    }
 }

@@ -5,7 +5,7 @@ import java.sql.*
 
 class DataBaseRequest {
     /** Chemin vers la bdd pour le connecteur */
-    // TODO: changer le chemin d'acces a la bdd local
+    // TODO: changer le chemin d'accès a la bdd local
 //    private val connector = "jdbc:sqlite:/home/install/BddLocal.sqlite";
     private val connector = "jdbc:sqlite:C:\\Users\\hugo\\OneDrive\\Projet\\BddLocal\\BddLocal.sqlite"
 
@@ -100,17 +100,13 @@ class DataBaseRequest {
     fun insertParam(latitude: String?, longitude: String?, addMac: String?){
         if (conn != null) {
             val query = """
-                INSERT INTO information (id, latitude, longitude, AddMac) VALUES (null, ?, ?, ?)
-                 ON CONFLICT DO UPDATE SET latitude=?, longitude=?, AddMac=?
+                UPDATE information SET  latitude=?, longitude=?, AddMac=?
                  """.trimIndent()
 
             val ps = conn!!.prepareStatement(query)
             ps.setDouble(1, latitude!!.toDouble())
             ps.setDouble(2, longitude!!.toDouble())
             ps.setString(3, addMac)
-            ps.setDouble(4, latitude.toDouble())
-            ps.setDouble(5, longitude.toDouble())
-            ps.setString(6, addMac)
             ps.executeUpdate()
         }
     }

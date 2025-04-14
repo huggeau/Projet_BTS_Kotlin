@@ -69,8 +69,6 @@ class HelloController : Initializable {
     override fun initialize(location: java.net.URL?, resources: ResourceBundle?) {
         blockPanel()
 
-
-
         /*
         permet au binding d'éviter d'afficher et les valeurs null et les valeurs vide.
          */
@@ -94,8 +92,8 @@ class HelloController : Initializable {
                 ouvrirNouvelleFenetre()
             }
 
-        launchTimers()
 
+        launchTimers()
     }
 
     /**
@@ -121,6 +119,7 @@ class HelloController : Initializable {
         timer.runThreadParamOnduleur()
         timer.runThreadWarningOnduleur()
         timer.runThreadEnvoieWarningBddDistante()
+        timer.runThreadRouteParam()
         threadAffichageDynamique()
     }
 
@@ -149,9 +148,10 @@ class HelloController : Initializable {
                 }
             }
         }
-        timer_binding.scheduleAtFixedRate(timerTaskGraph, 500, 1000)
+        timer_binding.scheduleAtFixedRate(timerTaskGraph, 0, 1000)
     }
 
+    /**Méthode ouvrant la fenêtre de login*/
     private fun ouvrirNouvelleFenetre(){
             val loader = FXMLLoader(javaClass.getResource("/com.btsciel/login-view.fxml"))
             val root = loader.load<Parent>()
@@ -165,6 +165,7 @@ class HelloController : Initializable {
 
     }
 
+    /**Méthode permettant de redimensionner de façon dynamique la scene principale ATTENTION pas fonctionnel*/
     private fun autoResizeScene(){
         val stage = anchorPane!!.scene.window as Stage
         stage.widthProperty().addListener { observable, oldValue, newValue ->
