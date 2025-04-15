@@ -41,9 +41,9 @@ class HelloController : Initializable {
     @FXML
     var labelGainInstant: Label? = null
     @FXML
-    var labelGainJournalier: Label? = null
+    var labelBatteryCapacity: Label? = null
     @FXML
-    var labelGainMensuel: Label? = null
+    var labelPVInputForBattery: Label? = null
     @FXML
     var ButtonAdmin: Button? = null
     @FXML
@@ -62,7 +62,9 @@ class HelloController : Initializable {
     private var wks: Wks = Wks()
     private var timer: TimerData = TimerData(wks)
     var mQPIGS: ModelQPIGS = wks.getModelQPIGS()
-    var data:SimpleStringProperty= SimpleStringProperty()
+    var data:SimpleStringProperty= SimpleStringProperty("")
+    var batteryCapacity = SimpleStringProperty("")
+    var PV_Input_for_battery = SimpleStringProperty("")
     var db: DataBaseRequest = DataBaseRequest()
     private var secondeData: SimpleStringProperty = SimpleStringProperty()
     private lateinit var condition: BooleanBinding
@@ -71,12 +73,11 @@ class HelloController : Initializable {
     override fun initialize(location: java.net.URL?, resources: ResourceBundle?) {
         blockPanel()
 
-        comboBoxGraphe?.items!!.addAll("conso instantanné", "conso journalière", "conso mensuelle", "conso annuelle")
+        comboBoxGraphe?.items!!.addAll("conso journalière", "conso mensuelle", "conso annuelle")
 
         comboBoxGraphe?.setOnAction {
             val selected = comboBoxGraphe?.value
             when(selected) {
-                "conso instantanné" -> updateChartInstantanne()
                 "conso journalière" -> updateChartJournalier()
                 "conso mensuelle" -> updateChartMensuel()
                 "conso annuelle" -> updateChartAnnuel()
@@ -113,6 +114,18 @@ class HelloController : Initializable {
             .then(secondeData)
             .otherwise("")
         )
+
+        condition = batteryCapacity.isNotNull
+            .and(batteryCapacity.isNotEmpty)
+        labelBatteryCapacity!!.textProperty().bind(Bindings.`when`(condition)
+            .then(batteryCapacity)
+            .otherwise(""))
+
+        condition = PV_Input_for_battery.isNotNull
+            .and(PV_Input_for_battery.isNotEmpty)
+        labelPVInputForBattery!!.textProperty().bind(Bindings.`when`(condition)
+            .then(PV_Input_for_battery)
+            .otherwise(""))
 
 
         ButtonAdmin!!.onAction =
@@ -163,7 +176,7 @@ class HelloController : Initializable {
         }
         timer_binding.scheduleAtFixedRate(timerTaskConso, 0, 1000)
 
-        val timerTaskGraph = object : TimerTask() {
+        val timerTaskGain = object : TimerTask() {
             override fun run() {
                 Platform.runLater {
                     val prix = db.recupPrix()
@@ -173,33 +186,34 @@ class HelloController : Initializable {
                         gain =  prix * conso.toDouble()
                     }
 
-                    secondeData.set("%.2f €".format(gain))
+                    secondeData.set("%.2f cts".format(gain))
                 }
             }
         }
-        timer_binding.scheduleAtFixedRate(timerTaskGraph, 0, 1000)
+        timer_binding.scheduleAtFixedRate(timerTaskGain, 0, 1000)
+
+        val timerTaskBatteryCapacity = object : TimerTask() {
+            override fun run() {
+                Platform.runLater {
+                    batteryCapacity.set(mQPIGS.getBattery_capacity())
+                }
+            }
+        }
+        timer_binding.scheduleAtFixedRate(timerTaskBatteryCapacity, 0, 1000)
+
+        val timerTaskPVInputForBattery: TimerTask = object : TimerTask() {
+            override fun run() {
+                Platform.runLater {
+                    PV_Input_for_battery.set(mQPIGS.getPV_input_current_for_battery())
+                }
+            }
+        }
+        timer_binding.scheduleAtFixedRate(timerTaskPVInputForBattery, 0, 1000)
     }
 
     /**
      * Voici les méthodes permettant de changer le graphe en fonction du gain à afficher
      * */
-    private fun updateChartInstantanne() {
-        val timerTaskWarning = object : TimerTask() {
-            override fun run() {
-                Platform.runLater{
-                    val newValue = gain
-                    series.data.clear()
-                    series.data.add(XYChart.Data(gain.toString(),newValue))
-
-                    if(series.data.size > 50){
-                        series.data.removeAt(0)
-                    }
-                }
-            }
-        }
-        timer_binding.scheduleAtFixedRate(timerTaskWarning, 0, 1000)
-    }
-
     private fun updateChartJournalier(){
         val timerTaskWarning = object : TimerTask() {
             override fun run() {

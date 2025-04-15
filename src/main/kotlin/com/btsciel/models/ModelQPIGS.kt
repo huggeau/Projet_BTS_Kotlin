@@ -13,9 +13,9 @@ class ModelQPIGS {
     var bus_voltage: String? = null
     var battery_voltage: String? = null
     var battery_charging_current: String? = null
-    var battery_capacity: String? = null
+    private val battery_capacity: SimpleStringProperty = SimpleStringProperty("")
     var inverter_heat_sink_temperature: String? = null
-    var pv_input_current_for_battery: String? = null
+    private val pv_input_current_for_battery: SimpleStringProperty = SimpleStringProperty("")
     var pv_input_voltage_1: String? = null
     var battery_voltage_fromm_scc: String? = null
     var battery_discharge_current: String? = null
@@ -25,8 +25,7 @@ class ModelQPIGS {
     var pv_charging_power: String? = null
     var device_status2: String? = null
 
-
-    /** Celles qui sont utiles */
+    
     fun getAC_output_active_power(): String {
         return AC_output_active_power.value
     }
@@ -38,5 +37,29 @@ class ModelQPIGS {
     fun AC_output_active_powerProperty(): SimpleStringProperty {
         return AC_output_active_power
     }
-    /** Fin de celles qui sont utiles */
+
+    fun getBattery_capacity(): String {
+        return battery_capacity.value
+    }
+
+    fun setBattery_capacity(battery_capacity: String?) {
+        this.battery_capacity.set(battery_capacity)
+    }
+
+    fun battery_capacityProperty(): SimpleStringProperty {
+        return battery_capacity
+    }
+
+    fun getPV_input_current_for_battery(): String {
+        return pv_input_current_for_battery.value
+    }
+
+    fun setPV_input_current_for_battery(value: String?) {
+        this.pv_input_current_for_battery.set(value)
+    }
+
+    fun PV_input_current_for_batteryProperty(): SimpleStringProperty {
+        return pv_input_current_for_battery
+    }
+
 }

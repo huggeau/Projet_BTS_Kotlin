@@ -151,9 +151,9 @@ class Wks : LiaisonSerie() {
         modelQPIGS.bus_voltage = tab2[7]
         modelQPIGS.battery_voltage = tab2[8]
         modelQPIGS.battery_charging_current = tab2[9]
-        modelQPIGS.battery_capacity = tab2[10]
+        modelQPIGS.setBattery_capacity(tab2[10])
         modelQPIGS.inverter_heat_sink_temperature = tab2[11]
-        modelQPIGS.pv_input_current_for_battery = tab2[12]
+        modelQPIGS.setPV_input_current_for_battery(tab2[12])
         modelQPIGS.pv_input_voltage_1 = tab2[13]
         modelQPIGS.battery_voltage_fromm_scc = tab2[14]
         modelQPIGS.battery_discharge_current = tab2[15]
