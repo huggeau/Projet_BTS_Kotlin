@@ -97,7 +97,6 @@ class TimerData(wks: Wks) {
     fun runThreadRoutePrix() {
         val timerTask: TimerTask = object : TimerTask() {
             override fun run() {
-                //todo
                 wks.recupPrix()
             }
         }

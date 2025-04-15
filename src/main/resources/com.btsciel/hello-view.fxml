@@ -37,7 +37,7 @@
                             <NumberAxis fx:id="idYAxis" side="LEFT" />
                         </yAxis>
                     </LineChart>
-                    <ComboBox layoutX="149.0" layoutY="1.0" prefWidth="150.0" promptText="Graphe " />
+                    <ComboBox fx:id="comboBoxGraphe" layoutX="149.0" layoutY="1.0" prefWidth="150.0" promptText="Graphe " />
                 </AnchorPane>
             </SplitPane>
         </AnchorPane>

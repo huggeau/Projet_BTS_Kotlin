@@ -17,10 +17,8 @@ import javafx.scene.Scene
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
-import javafx.scene.control.Button
-import javafx.scene.control.Label
-import javafx.scene.control.SplitPane
-import javafx.scene.control.TextField
+import javafx.scene.chart.XYChart
+import javafx.scene.control.*
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Modality
 import javafx.stage.Stage
@@ -31,6 +29,8 @@ class HelloController : Initializable {
     private val absolutePositionPanel1 = .33
     private val absolutePositionPanel2 = .25
     private val timer_binding: Timer = Timer()
+    private val series = XYChart.Series<String, Number>()
+    private var gain = 0.0
 
     @FXML
     var anchorPane: AnchorPane? = null
@@ -47,7 +47,7 @@ class HelloController : Initializable {
     @FXML
     var ButtonAdmin: Button? = null
     @FXML
-    var idLineChart: LineChart<Number, Number>? = null
+    var idLineChart: LineChart<String, Number> ? = null
     @FXML
     var idXAxis: CategoryAxis? = null
     @FXML
@@ -56,6 +56,8 @@ class HelloController : Initializable {
     var splitplane1: SplitPane? = null
     @FXML
     var splitplane2: SplitPane? = null
+    @FXML
+    var comboBoxGraphe: ComboBox<String>? = null
 
     private var wks: Wks = Wks()
     private var timer: TimerData = TimerData(wks)
@@ -68,6 +70,32 @@ class HelloController : Initializable {
 
     override fun initialize(location: java.net.URL?, resources: ResourceBundle?) {
         blockPanel()
+
+        comboBoxGraphe?.items!!.addAll("conso instantanné", "conso journalière", "conso mensuelle", "conso annuelle")
+
+        comboBoxGraphe?.setOnAction {
+            val selected = comboBoxGraphe?.value
+            when(selected) {
+                "conso instantanné" -> updateChartInstantanne()
+                "conso journalière" -> updateChartJournalier()
+                "conso mensuelle" -> updateChartMensuel()
+                "conso annuelle" -> updateChartAnnuel()
+            }
+        }
+
+        idYAxis?.apply {
+            label = "euro"
+        }
+        idXAxis?.apply {
+            label = "temps"
+        }
+        idLineChart?.apply {
+            title = "Gain"
+            data.add(series)
+        }
+
+
+        series.name = "donnée en temps réel"
 
         /*
         permet au binding d'éviter d'afficher et les valeurs null et les valeurs vide.
@@ -123,6 +151,8 @@ class HelloController : Initializable {
         threadAffichageDynamique()
     }
 
+    /**
+     * Méthode permettant de modifier dynamiquement les différentes variables*/
     private fun threadAffichageDynamique(){
         val timerTaskConso: TimerTask = object : TimerTask() {
             override fun run() {
@@ -139,7 +169,6 @@ class HelloController : Initializable {
                     val prix = db.recupPrix()
                     val conso = mQPIGS.getAC_output_active_power()
 
-                    var gain = 0.0
                     if(conso.isNotEmpty()){
                         gain =  prix * conso.toDouble()
                     }
@@ -149,6 +178,77 @@ class HelloController : Initializable {
             }
         }
         timer_binding.scheduleAtFixedRate(timerTaskGraph, 0, 1000)
+    }
+
+    /**
+     * Voici les méthodes permettant de changer le graphe en fonction du gain à afficher
+     * */
+    private fun updateChartInstantanne() {
+        val timerTaskWarning = object : TimerTask() {
+            override fun run() {
+                Platform.runLater{
+                    val newValue = gain
+                    series.data.clear()
+                    series.data.add(XYChart.Data(gain.toString(),newValue))
+
+                    if(series.data.size > 50){
+                        series.data.removeAt(0)
+                    }
+                }
+            }
+        }
+        timer_binding.scheduleAtFixedRate(timerTaskWarning, 0, 1000)
+    }
+
+    private fun updateChartJournalier(){
+        val timerTaskWarning = object : TimerTask() {
+            override fun run() {
+                Platform.runLater{
+                    series.data.clear()
+                    val newValue = gain
+                    series.data.add(XYChart.Data(gain.toString(),newValue))
+
+                    if(series.data.size > 50){
+                        series.data.removeAt(0)
+                    }
+                }
+            }
+        }
+        timer_binding.scheduleAtFixedRate(timerTaskWarning, 0, 1000)
+    }
+
+    private fun updateChartMensuel(){
+        val timerTaskWarning = object : TimerTask() {
+            override fun run() {
+                Platform.runLater{
+                    series.data.clear()
+                    val newValue = gain
+                    series.data.add(XYChart.Data(gain.toString(),newValue))
+
+                    if(series.data.size > 50){
+                        series.data.removeAt(0)
+                    }
+                }
+            }
+        }
+        timer_binding.scheduleAtFixedRate(timerTaskWarning, 0, 1000)
+    }
+
+    private fun updateChartAnnuel(){
+        val timerTaskWarning = object : TimerTask() {
+            override fun run() {
+                Platform.runLater{
+                    series.data.clear()
+                    val newValue = gain
+                    series.data.add(XYChart.Data(gain.toString(),newValue))
+
+                    if(series.data.size > 50){
+                        series.data.removeAt(0)
+                    }
+                }
+            }
+        }
+        timer_binding.scheduleAtFixedRate(timerTaskWarning, 0, 1000)
     }
 
     /**Méthode ouvrant la fenêtre de login*/

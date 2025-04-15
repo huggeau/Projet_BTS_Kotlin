@@ -271,7 +271,10 @@ class Wks : LiaisonSerie() {
         if (listACOutputApparentPower.isNotEmpty()) {
             if (listACOutputApparentPower.size <= 10) {
                 for (s in listACOutputApparentPower) {
-                    val valeur = s.toInt()
+                    var valeur = 0
+                    if(s.isNotEmpty()) {
+                         valeur = s.toInt()
+                    }
                     moyenneEnergie += valeur.toDouble()
                 }
             }
@@ -348,7 +351,7 @@ class Wks : LiaisonSerie() {
     }
 
     fun getWarningOnduleur(){
-        var modelSourcePriority: ModelSourcePriority = ModelSourcePriority(dataBaseRequest.recupInfoOnduleur()?.get(2))
+        val modelSourcePriority = ModelSourcePriority(dataBaseRequest.recupInfoOnduleur()?.get(2))
         retrofit.api.getParamOndu(modelSourcePriority)?.enqueue(object : retrofit2.Callback<PojoParam?>{
 
             override fun onResponse(p0: Call<PojoParam?>, p1: Response<PojoParam?>) {
