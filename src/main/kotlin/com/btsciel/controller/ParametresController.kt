@@ -44,7 +44,7 @@ class ParametresController : Initializable {
             dataBaseRequest?.insertParam(textFieldLatitude!!.text, textFieldLongitude!!.text, textFieldMAC!!.text)
 
             val retrofit = Api_Retrofit()
-            val modelInfoOnduleur = ModelInfoOnduleur(textFieldLatitude!!.text, textFieldLongitude!!.text, textFieldMAC!!.text)
+            val modelInfoOnduleur = ModelInfoOnduleur(textFieldLatitude!!.text.toDouble(), textFieldLongitude!!.text.toDouble(), textFieldMAC!!.text)
             retrofit.api.postInfo(modelInfoOnduleur)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
 
                 override fun onResponse(p0: Call<Api_Retrofit?>, p1: Response<Api_Retrofit?>) {

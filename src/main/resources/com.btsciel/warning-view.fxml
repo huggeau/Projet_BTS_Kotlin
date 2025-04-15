@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="298.0" prefWidth="385.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.btsciel.controller.WarningController">
+    <Label fx:id="labA0" layoutX="14.0" layoutY="31.0" text="Label" />
+    <Label fx:id="labA5" layoutX="14.0" layoutY="61.0" text="Label" />
+    <Label fx:id="labA10" layoutX="14.0" layoutY="97.0" text="Label" />
+    <Label fx:id="labA15" layoutX="14.0" layoutY="135.0" text="Label" />
+    <Label fx:id="labA20" layoutX="14.0" layoutY="174.0" text="Label" />
+    <Label fx:id="labA25" layoutX="14.0" layoutY="217.0" text="Label" />
+    <Label fx:id="labA30" layoutX="14.0" layoutY="250.0" text="Label" />
+    <Label fx:id="labA1" layoutX="79.0" layoutY="31.0" text="Label" />
+    <Label fx:id="labA2" layoutX="165.0" layoutY="29.0" text="Label" />
+    <Label fx:id="labA3" layoutX="244.0" layoutY="30.0" text="Label" />
+    <Label fx:id="labA4" layoutX="323.0" layoutY="31.0" text="Label" />
+    <Label fx:id="labA6" layoutX="79.0" layoutY="61.0" text="Label" />
+    <Label fx:id="labA7" layoutX="165.0" layoutY="59.0" text="Label" />
+    <Label fx:id="labA8" layoutX="244.0" layoutY="60.0" text="Label" />
+    <Label fx:id="labA9" layoutX="323.0" layoutY="61.0" text="Label" />
+    <Label fx:id="labA11" layoutX="79.0" layoutY="97.0" text="Label" />
+    <Label fx:id="labA12" layoutX="165.0" layoutY="95.0" text="Label" />
+    <Label fx:id="labA13" layoutX="244.0" layoutY="96.0" text="Label" />
+    <Label fx:id="labA14" layoutX="323.0" layoutY="97.0" text="Label" />
+    <Label fx:id="labA16" layoutX="79.0" layoutY="135.0" text="Label" />
+    <Label fx:id="labA17" layoutX="165.0" layoutY="133.0" text="Label" />
+    <Label fx:id="labA18" layoutX="244.0" layoutY="134.0" text="Label" />
+    <Label fx:id="labA19" layoutX="323.0" layoutY="135.0" text="Label" />
+    <Label fx:id="labA21" layoutX="79.0" layoutY="174.0" text="Label" />
+    <Label fx:id="labA22" layoutX="165.0" layoutY="172.0" text="Label" />
+    <Label fx:id="labA23" layoutX="244.0" layoutY="173.0" text="Label" />
+    <Label fx:id="labA24" layoutX="323.0" layoutY="174.0" text="Label" />
+    <Label fx:id="labA26" layoutX="79.0" layoutY="217.0" text="Label" />
+    <Label fx:id="labA27" layoutX="165.0" layoutY="217.0" text="Label" />
+    <Label fx:id="labA28" layoutX="244.0" layoutY="216.0" text="Label" />
+    <Label fx:id="labA29" layoutX="323.0" layoutY="217.0" text="Label" />
+    <Label fx:id="labA31" layoutX="79.0" layoutY="250.0" text="Label" />
+    <Label fx:id="labA32" layoutX="165.0" layoutY="250.0" text="Label" />
+    <Label fx:id="labA33" layoutX="244.0" layoutY="250.0" text="Label" />
+    <Label fx:id="labA34" layoutX="323.0" layoutY="250.0" text="Label" />
+    <Label fx:id="labA35" layoutX="165.0" layoutY="275.0" text="Label" />
+    <Label layoutX="129.0" layoutY="5.0" text="Liste des Warnings" />
+</AnchorPane>
