@@ -373,4 +373,8 @@ class Wks : LiaisonSerie() {
     fun getModelQPIGS(): ModelQPIGS {
         return modelQPIGS
     }
+
+    fun getModelQPIWS():ModelQPIWS{
+        return modelQPIWS
+    }
 }

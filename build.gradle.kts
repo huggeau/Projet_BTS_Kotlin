@@ -39,6 +39,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("org.openjfx:javafx-controls:21")
     implementation("org.openjfx:javafx-fxml:21")
+    implementation ("org.comtel2000:fx-onscreen-keyboard:11.0.1")
 
 }
 

@@ -1,9 +1,11 @@
 package com.btsciel.controller
 
+import com.btsciel.Main
 import com.btsciel.RequeteBdd.DataBaseRequest
+import com.btsciel.Utils.TimerData
 import com.btsciel.Utils.Wks
 import com.btsciel.models.ModelQPIGS
-import com.btsciel.Utils.TimerData
+import com.btsciel.models.ModelQPIWS
 import javafx.application.Platform
 import javafx.beans.binding.Bindings
 import javafx.beans.binding.BooleanBinding
@@ -30,6 +32,7 @@ class HelloController : Initializable {
     private val timer_binding: Timer = Timer()
     private val series = XYChart.Series<String, Number>()
     private var gain = 0.0
+    private lateinit var application : Main
 
     @FXML
     var anchorPane: AnchorPane? = null
@@ -59,6 +62,7 @@ class HelloController : Initializable {
     private var wks: Wks = Wks()
     private var timer: TimerData = TimerData(wks)
     var mQPIGS: ModelQPIGS = wks.getModelQPIGS()
+    var mQPIWS: ModelQPIWS = wks.getModelQPIWS()
     var data:SimpleStringProperty= SimpleStringProperty("")
     var batteryCapacity = SimpleStringProperty("")
     var PV_Input_for_battery = SimpleStringProperty("")
@@ -98,7 +102,7 @@ class HelloController : Initializable {
         }
 
         ButtonWarnings!!.setOnAction { event ->
-            ouvrirFenetreWarning()
+            ouvrirFenetreWarnings()
         }
 
         launchTimers()
@@ -234,19 +238,10 @@ class HelloController : Initializable {
         stage.isResizable = false
         stage.initModality(Modality.APPLICATION_MODAL)
         stage.show()
-
     }
 
-    private fun ouvrirFenetreWarning() {
-        val loader = FXMLLoader(javaClass.getResource("/com.btsciel/warning-view.fxml"))
-        val root = loader.load<Parent>()
-
-        val stage = Stage()
-        stage.scene = Scene(root)
-        stage.title = "Warnings"
-        stage.isResizable = false
-        stage.initModality(Modality.APPLICATION_MODAL)
-        stage.show()
+    private fun ouvrirFenetreWarnings(){
+        application.scanView(mQPIWS)
     }
     /**
         permet au binding d'éviter d'afficher et les valeurs null et les valeurs vide.
@@ -280,5 +275,10 @@ class HelloController : Initializable {
             .then(PV_Input_for_battery)
             .otherwise("")
         )
+    }
+
+    fun setMainApp(main: Main) {
+        application = main
+
     }
 }
