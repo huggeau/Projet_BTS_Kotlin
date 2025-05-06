@@ -46,6 +46,8 @@ class Main : Application() {
         stage.title = "Warnings"
         stage.scene = scene
         stage.isResizable = false
+        stage.width = 150.0
+        stage.height = 150.0
 
         val scanController = loader.getController<WarningsController>()
         scanController.setScanStage(stage)
