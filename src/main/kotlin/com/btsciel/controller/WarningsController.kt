@@ -17,7 +17,6 @@ class WarningsController : Initializable {
     private lateinit var scanStage: Stage
     private lateinit var modelQPIWS: ModelQPIWS
 
-    // Lier ce VBox à votre FXML avec fx:id="root"
     @FXML
     private lateinit var root: VBox
 
@@ -101,5 +100,6 @@ class WarningsController : Initializable {
                     root.children.add(label)
                 }
             }
+        root.alignment = Pos.CENTER
     }
 }

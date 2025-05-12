@@ -178,11 +178,13 @@ class HelloController : Initializable {
      * Voici les méthodes permettant de changer le graphe en fonction du gain à afficher
      * */
     private fun updateChartJournalier(){
-        val timerTaskWarning = object : TimerTask() {
+        val gainJournalier = db.getGainJournalier()
+        val timerTaskGainJournalier = object : TimerTask() {
             override fun run() {
                 Platform.runLater{
                     series.data.clear()
-                    val newValue = gain
+                    val newValue = calculGain(gainJournalier, gain)
+                    db.updateGainJournalier(gain.toString())
                     series.data.add(XYChart.Data(gain.toString(),newValue))
 
                     if(series.data.size > 50){
@@ -191,15 +193,17 @@ class HelloController : Initializable {
                 }
             }
         }
-        timer_binding.scheduleAtFixedRate(timerTaskWarning, 0, 1000)
+        timer_binding.scheduleAtFixedRate(timerTaskGainJournalier, 0, 86400000)
     }
 
     private fun updateChartMensuel(){
-        val timerTaskWarning = object : TimerTask() {
+        val gainMensuel = db.getGainMensuel()
+        val timerTaskGainMensuel = object : TimerTask() {
             override fun run() {
                 Platform.runLater{
                     series.data.clear()
-                    val newValue = gain
+                    val newValue = calculGain(gainMensuel, gain)
+                    db.updateGainMensuel(gain.toString())
                     series.data.add(XYChart.Data(gain.toString(),newValue))
 
                     if(series.data.size > 50){
@@ -208,15 +212,17 @@ class HelloController : Initializable {
                 }
             }
         }
-        timer_binding.scheduleAtFixedRate(timerTaskWarning, 0, 1000)
+        timer_binding.scheduleAtFixedRate(timerTaskGainMensuel, 0, 2592000000)
     }
 
     private fun updateChartAnnuel(){
-        val timerTaskWarning = object : TimerTask() {
+        val gainAnnuler = db.getGainAnnuel()
+        val timerTaskGainAnnuel = object : TimerTask() {
             override fun run() {
                 Platform.runLater{
                     series.data.clear()
-                    val newValue = gain
+                    val newValue = calculGain(gainAnnuler, gain)
+                    db.updateGainAnnuel(gain.toString())
                     series.data.add(XYChart.Data(gain.toString(),newValue))
 
                     if(series.data.size > 50){
@@ -225,7 +231,11 @@ class HelloController : Initializable {
                 }
             }
         }
-        timer_binding.scheduleAtFixedRate(timerTaskWarning, 0, 1000)
+        timer_binding.scheduleAtFixedRate(timerTaskGainAnnuel, 0, 315360000000)
+    }
+
+    private fun calculGain(newestGain: Double, latestGain: Double) : Double {
+        return newestGain - latestGain
     }
     /**Méthode ouvrant la fenêtre de login*/
     private fun ouvrirFenetreLogin(){
@@ -243,9 +253,7 @@ class HelloController : Initializable {
     private fun ouvrirFenetreWarnings(){
         application.scanView(mQPIWS)
     }
-    /**
-        permet au binding d'éviter d'afficher et les valeurs null et les valeurs vide.
-         */
+    /**permet au binding d'éviter d'afficher et les valeurs null et les valeurs vide.*/
     private fun bindingLabel(){
 
         condition = data.isNotNull

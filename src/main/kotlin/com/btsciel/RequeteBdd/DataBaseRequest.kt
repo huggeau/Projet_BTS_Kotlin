@@ -6,8 +6,8 @@ import java.sql.*
 class DataBaseRequest {
     /** Chemin vers la bdd pour le connecteur */
     // TODO: changer le chemin d'accès a la bdd local
-//    private val connector = "jdbc:sqlite:/home/install/BddLocal.sqlite";
-    private val connector = "jdbc:sqlite:C:\\Users\\hugo\\OneDrive\\Projet\\BddLocal\\BddLocal.sqlite"
+    private val connector = "jdbc:sqlite:/home/install/BddLocal.sqlite";
+//    private val connector = "jdbc:sqlite:C:\\Users\\hugo\\OneDrive\\Projet\\BddLocal\\BddLocal.sqlite"
 
     /** Vérifie si la bdd est joignable */
     private var conn: Connection? = DriverManager.getConnection(connector)
@@ -109,5 +109,62 @@ class DataBaseRequest {
             ps.setString(3, addMac)
             ps.executeUpdate()
         }
+    }
+
+    fun updateGainJournalier(gain: String) {
+        if(conn != null) {
+            val query = "UPDATE gain_journalier SET  conso=?"
+            val ps = conn!!.prepareStatement(query)
+            ps.setString(1, gain)
+            ps.executeUpdate()
+        }
+    }
+
+    fun getGainJournalier(): Double {
+        if(conn != null) {
+            val query = "SELECT conso FROM gain_journalier"
+            val ps = conn!!.prepareStatement(query)
+            val rs = ps.executeQuery()
+            return rs.getDouble("conso")
+        }
+        return 0.0
+    }
+
+    fun updateGainMensuel(gain: String) {
+        if(conn != null) {
+            val query = "UPDATE gain_mensuel SET  conso=?"
+            val ps = conn!!.prepareStatement(query)
+            ps.setString(1, gain)
+            ps.executeUpdate()
+        }
+    }
+
+    fun getGainMensuel(): Double {
+        if(conn != null) {
+            val query = "SELECT conso FROM gain_mensuel"
+            val ps = conn!!.prepareStatement(query)
+            val rs = ps.executeQuery()
+            return rs.getDouble("conso")
+        }
+        return 0.0
+    }
+
+    fun updateGainAnnuel(gain: String) {
+        if(conn != null) {
+            val query = "UPDATE gain_annuel SET  gain=?"
+            val ps = conn!!.prepareStatement(query)
+            ps.setString(1, gain)
+            ps.executeUpdate()
+        }
+    }
+
+    fun getGainAnnuel(): Double {
+        if(conn != null) {
+            val query = "SELECT conso FROM gain_annuel"
+            val ps = conn!!.prepareStatement(query)
+            val rs = ps.executeQuery()
+            return rs.getDouble("conso")
+        }
+        return 0.0
     }
 }
