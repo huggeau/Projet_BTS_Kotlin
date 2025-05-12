@@ -6,8 +6,8 @@ import java.sql.*
 class DataBaseRequest {
     /** Chemin vers la bdd pour le connecteur */
     // TODO: changer le chemin d'accès a la bdd local
-    private val connector = "jdbc:sqlite:/home/install/BddLocal.sqlite";
-//    private val connector = "jdbc:sqlite:C:\\Users\\hugo\\OneDrive\\Projet\\BddLocal\\BddLocal.sqlite"
+//    private val connector = "jdbc:sqlite:/home/install/BddLocal.sqlite";
+    private val connector = "jdbc:sqlite:C:\\Users\\hugo\\OneDrive\\Projet\\BddLocal\\BddLocal.sqlite"
 
     /** Vérifie si la bdd est joignable */
     private var conn: Connection? = DriverManager.getConnection(connector)
@@ -160,7 +160,7 @@ class DataBaseRequest {
 
     fun getGainAnnuel(): Double {
         if(conn != null) {
-            val query = "SELECT conso FROM gain_annuel"
+            val query = "SELECT gain FROM gain_annuel"
             val ps = conn!!.prepareStatement(query)
             val rs = ps.executeQuery()
             return rs.getDouble("conso")

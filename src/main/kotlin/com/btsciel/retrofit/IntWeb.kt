@@ -27,4 +27,13 @@ interface IntWeb {
     @POST("/onduleur/parametreOnduleur")
     fun getParamOndu(@Body modelSourcePriority: ModelSourcePriority): Call<PojoParam?>?
 
+    @POST("/onduleur/gain")
+    fun postGainJournalier(@Body modelGainJournalier: ModelGainJournalier?): Call<Api_Retrofit?>?
+
+    @POST("/onduleur/gain")
+    fun postGainMensuel(@Body modelGainMensuel: ModelGainMensuel?): Call<Api_Retrofit?>?
+
+    @POST("/onduleur/gain")
+    fun postGainAnnuel(@Body modelGainAnnuel: ModelGainAnnuel?): Call<Api_Retrofit?>?
+
 }

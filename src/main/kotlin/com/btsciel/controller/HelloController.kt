@@ -4,8 +4,7 @@ import com.btsciel.Main
 import com.btsciel.RequeteBdd.DataBaseRequest
 import com.btsciel.Utils.TimerData
 import com.btsciel.Utils.Wks
-import com.btsciel.models.ModelQPIGS
-import com.btsciel.models.ModelQPIWS
+import com.btsciel.models.*
 import javafx.application.Platform
 import javafx.beans.binding.Bindings
 import javafx.beans.binding.BooleanBinding
@@ -185,6 +184,10 @@ class HelloController : Initializable {
                     series.data.clear()
                     val newValue = calculGain(gainJournalier, gain)
                     db.updateGainJournalier(gain.toString())
+
+                    val model = db.recupInfoOnduleur()?.get(2)?.let { ModelGainJournalier(newValue, it) }
+
+                    wks.postGainJournalier(model)
                     series.data.add(XYChart.Data(gain.toString(),newValue))
 
                     if(series.data.size > 50){
@@ -204,6 +207,10 @@ class HelloController : Initializable {
                     series.data.clear()
                     val newValue = calculGain(gainMensuel, gain)
                     db.updateGainMensuel(gain.toString())
+
+                    val model = db.recupInfoOnduleur()?.get(2)?.let { ModelGainMensuel(newValue, it) }
+                    wks.postGainMensuel(model)
+
                     series.data.add(XYChart.Data(gain.toString(),newValue))
 
                     if(series.data.size > 50){
@@ -223,6 +230,10 @@ class HelloController : Initializable {
                     series.data.clear()
                     val newValue = calculGain(gainAnnuler, gain)
                     db.updateGainAnnuel(gain.toString())
+
+                    val model = db.recupInfoOnduleur()?.get(2)?.let { ModelGainAnnuel(newValue, it) }
+                    wks.postGainAnnuel(model)
+
                     series.data.add(XYChart.Data(gain.toString(),newValue))
 
                     if(series.data.size > 50){

@@ -367,6 +367,38 @@ class Wks : LiaisonSerie() {
         })
     }
 
+    fun postGainJournalier(model: ModelGainJournalier?) {
+        retrofit.api.postGainJournalier(model)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
+            override fun onResponse(call: Call<Api_Retrofit?>, response: Response<Api_Retrofit?>) {
+                println(response.isSuccessful)
+            }
+            override fun onFailure(call: Call<Api_Retrofit?>, throwable: Throwable) {
+                System.err.println(throwable.message)
+            }
+        })
+    }
+
+    fun postGainMensuel(model: ModelGainMensuel?) {
+        retrofit.api.postGainMensuel(model)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
+            override fun onResponse(call: Call<Api_Retrofit?>, response: Response<Api_Retrofit?>) {
+                println(response.isSuccessful)
+            }
+            override fun onFailure(call: Call<Api_Retrofit?>, throwable: Throwable) {
+                System.err.println(throwable.message)
+            }
+        })
+    }
+    fun postGainAnnuel(model: ModelGainAnnuel?) {
+        retrofit.api.postGainAnnuel(model)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
+            override fun onResponse(call: Call<Api_Retrofit?>, response: Response<Api_Retrofit?>) {
+                println(response.isSuccessful)
+            }
+            override fun onFailure(call: Call<Api_Retrofit?>, throwable: Throwable) {
+                System.err.println(throwable.message)
+            }
+        })
+    }
+
     /**
      * Méthode qui permet de retourner le modelQPIGS utilisé par l'onduleur afin d'utiliser le même objet modelQPIGS
      * */

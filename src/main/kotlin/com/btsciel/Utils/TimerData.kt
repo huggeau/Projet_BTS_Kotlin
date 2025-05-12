@@ -12,10 +12,10 @@ class TimerData(wks: Wks) {
     init {
         try {
             // Initialise les infos du port pour la liaison série.
-//            this.wks.initCom("com5")
+            this.wks.initCom("com5")
 
             //voici la ligne qu'il faudra mettre a la place du com5 quand l'appli sera sur le linux.
-             wks.initCom("/dev/ttyUSB0");
+//             wks.initCom("/dev/ttyUSB0");
             //todo
             this.wks.configurerParametres(2400, 8, 0, 1)
         } catch (e: SerialPortException) {
