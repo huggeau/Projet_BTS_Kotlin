@@ -350,7 +350,7 @@ class Wks : LiaisonSerie() {
         })
     }
 
-    fun getWarningOnduleur(){
+    fun getParamOnduleur(){
         val modelSourcePriority = ModelSourcePriority(dataBaseRequest.recupInfoOnduleur()?.get(2))
         retrofit.api.getParamOndu(modelSourcePriority)?.enqueue(object : retrofit2.Callback<PojoParam?>{
 

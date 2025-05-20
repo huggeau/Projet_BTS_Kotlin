@@ -54,7 +54,11 @@ class HelloController : Initializable {
     @FXML
     var splitplane2: SplitPane? = null
     @FXML
-    var comboBoxGraphe: ComboBox<String>? = null
+    var ButtonGainJournalier: Button? = null
+    @FXML
+    var ButtonGainMensuel: Button? = null
+    @FXML
+    var ButtonGainAnnuel: Button? = null
     @FXML
     var ButtonWarnings: Button? = null
 
@@ -73,26 +77,26 @@ class HelloController : Initializable {
     override fun initialize(location: java.net.URL?, resources: ResourceBundle?) {
         blockPanel()
 
-        comboBoxGraphe?.items!!.addAll("gain journalière", "gain mensuelle", "gain annuelle")
-
-        comboBoxGraphe?.setOnAction {
-            val selected = comboBoxGraphe?.value
-            when(selected) {
-                "gain journalière" -> updateChartJournalier()
-                "gain mensuelle" -> updateChartMensuel()
-                "gain annuelle" -> updateChartAnnuel()
-            }
+        ButtonGainJournalier?.setOnAction { event ->
+            updateChartJournalier()
         }
-
+        ButtonGainMensuel?.setOnAction { event ->
+            updateChartMensuel()
+        }
+        ButtonGainAnnuel?.setOnAction { event ->
+            updateChartAnnuel()
+        }
 
         idYAxis?.apply {
             label = "centimes d'euro"
+        }
+        idXAxis?.apply {
+            label = "temps"
         }
         idLineChart?.apply {
             title = "Gain"
             data.add(series)
         }
-        series.name = "donnée en temps réel"
 
         bindingLabel()
 

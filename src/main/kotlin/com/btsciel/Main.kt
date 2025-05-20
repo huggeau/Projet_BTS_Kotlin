@@ -27,6 +27,7 @@ class Main : Application() {
         primaryStage.title = "Onduleur"
         primaryStage.scene = scene
         primaryStage.isResizable = false
+        primaryStage.isFullScreen = true
 
         val popup : KeyBoardPopup = KeyBoardPopupBuilder.create().initLocale(Locale.getDefault()).build()
         popup.registerScene(scene)

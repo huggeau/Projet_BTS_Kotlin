@@ -41,6 +41,7 @@ dependencies {
     implementation("org.openjfx:javafx-fxml:21")
     implementation ("org.comtel2000:fx-onscreen-keyboard:11.0.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation(kotlin("stdlib-jdk8"))
 
 }
 

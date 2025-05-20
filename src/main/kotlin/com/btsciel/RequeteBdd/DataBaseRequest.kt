@@ -125,7 +125,7 @@ class DataBaseRequest {
             val query = "SELECT conso FROM gain_journalier"
             val ps = conn!!.prepareStatement(query)
             val rs = ps.executeQuery()
-            return rs.getDouble("conso")
+            return rs.getDouble(1)
         }
         return 0.0
     }
@@ -144,7 +144,7 @@ class DataBaseRequest {
             val query = "SELECT conso FROM gain_mensuel"
             val ps = conn!!.prepareStatement(query)
             val rs = ps.executeQuery()
-            return rs.getDouble("conso")
+            return rs.getDouble(1)
         }
         return 0.0
     }
@@ -163,7 +163,7 @@ class DataBaseRequest {
             val query = "SELECT gain FROM gain_annuel"
             val ps = conn!!.prepareStatement(query)
             val rs = ps.executeQuery()
-            return rs.getDouble("conso")
+            return rs.getDouble("gain")
         }
         return 0.0
     }

@@ -100,15 +100,15 @@ class TimerData(wks: Wks) {
                 wks.recupPrix()
             }
         }
-        timer.scheduleAtFixedRate(timerTask, 0, 300000)
+        timer.scheduleAtFixedRate(timerTask, 0, 86400000)
     }
 
     fun runThreadRouteParam(){
         val timerTask: TimerTask = object : TimerTask() {
             override fun run() {
-                wks.getWarningOnduleur()
+                wks.getParamOnduleur()
             }
         }
-        timer.scheduleAtFixedRate(timerTask, 0, 6000)
+        timer.scheduleAtFixedRate(timerTask, 0,86400000)
     }
 }
