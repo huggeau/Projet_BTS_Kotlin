@@ -6,8 +6,8 @@ import com.btsciel.models.ModelQPIWS
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
+import javafx.stage.Modality
 import javafx.stage.Stage
-import org.comtel2000.keyboard.control.KeyBoardPopup
 import org.comtel2000.keyboard.control.KeyBoardPopupBuilder
 import java.io.IOException
 import java.util.*
@@ -29,7 +29,7 @@ class Main : Application() {
         primaryStage.isResizable = false
         primaryStage.isFullScreen = true
 
-        val popup : KeyBoardPopup = KeyBoardPopupBuilder.create().initLocale(Locale.getDefault()).build()
+        val popup = KeyBoardPopupBuilder.create().initLocale(Locale.getDefault()).build()
         popup.registerScene(scene)
         popup.addGlobalFocusListener()
         popup.addGlobalDoubleClickEventFilter()
@@ -49,12 +49,37 @@ class Main : Application() {
         stage.isResizable = false
         stage.width = 150.0
         stage.height = 150.0
+        stage.initModality(Modality.APPLICATION_MODAL)
 
         val scanController = loader.getController<WarningsController>()
         scanController.setScanStage(stage)
 
         scanController.setModelQPIWS(model)
 
+        stage.showAndWait()
+    }
+
+    fun loginView(){
+        val loader = FXMLLoader(javaClass.getResource("/com.btsciel/login-view.fxml"))
+        val root = Scene(loader.load())
+
+        val stage = Stage()
+        stage.title = "Login"
+        stage.scene = root
+        stage.isResizable = false
+        stage.initModality(Modality.APPLICATION_MODAL)
+        stage.initOwner(primaryStage)
+        stage.showAndWait()
+    }
+    fun wifiView(){
+        val loader = FXMLLoader(javaClass.getResource("/com.btsciel/wifi-view.fxml"))
+        val root = Scene(loader.load())
+        val stage = Stage()
+        stage.title = "Wifi"
+        stage.scene = root
+        stage.isResizable = false
+        stage.initModality(Modality.APPLICATION_MODAL)
+        stage.initOwner(primaryStage)
         stage.showAndWait()
     }
 }

@@ -1,7 +1,9 @@
 package com.btsciel.controller
 
+import com.btsciel.Main
 import com.btsciel.models.ModelLoginAdmin
 import com.btsciel.retrofit.Api_Retrofit
+import com.sun.javafx.scene.control.skin.FXVK
 import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -29,6 +31,8 @@ class LoginController : Initializable {
 
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
+
+
 
         buttonCancelLogin?.setOnAction { event ->
             val stage = buttonCancelLogin!!.scene.window as Stage

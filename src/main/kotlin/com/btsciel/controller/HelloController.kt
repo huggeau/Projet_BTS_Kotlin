@@ -5,6 +5,7 @@ import com.btsciel.RequeteBdd.DataBaseRequest
 import com.btsciel.Utils.TimerData
 import com.btsciel.Utils.Wks
 import com.btsciel.models.*
+import com.btsciel.retrofit.Api_Retrofit
 import javafx.application.Platform
 import javafx.beans.binding.Bindings
 import javafx.beans.binding.BooleanBinding
@@ -23,6 +24,8 @@ import javafx.scene.control.*
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Modality
 import javafx.stage.Stage
+import retrofit2.Call
+import retrofit2.Response
 import java.util.*
 
 class HelloController : Initializable {
@@ -61,6 +64,8 @@ class HelloController : Initializable {
     var ButtonGainAnnuel: Button? = null
     @FXML
     var ButtonWarnings: Button? = null
+    @FXML
+    var buttonWifi: Button? = null
 
     private var wks: Wks = Wks()
     private var timer: TimerData = TimerData(wks)
@@ -75,6 +80,20 @@ class HelloController : Initializable {
 
 
     override fun initialize(location: java.net.URL?, resources: ResourceBundle?) {
+
+        val retrofit = Api_Retrofit()
+        val modelInfoOnduleur = db.recupInfoOnduleur()?.get(2)?.let { ModelInfoOnduleur(0.0,0.0, it) }
+        retrofit.api.postInfo(modelInfoOnduleur)?.enqueue(object : retrofit2.Callback<Api_Retrofit?> {
+
+            override fun onResponse(p0: Call<Api_Retrofit?>, p1: Response<Api_Retrofit?>) {
+                println(p0.toString())
+            }
+
+            override fun onFailure(p0: Call<Api_Retrofit?>, p1: Throwable) {
+                System.err.println(p1.message)
+            }
+        })
+
         blockPanel()
 
         ButtonGainJournalier?.setOnAction { event ->
@@ -90,12 +109,13 @@ class HelloController : Initializable {
         idYAxis?.apply {
             label = "centimes d'euro"
         }
-        idXAxis?.apply {
-            label = "temps"
-        }
         idLineChart?.apply {
             title = "Gain"
             data.add(series)
+        }
+
+        series.apply {
+            name = "Données en temps réel"
         }
 
         bindingLabel()
@@ -106,6 +126,10 @@ class HelloController : Initializable {
 
         ButtonWarnings!!.setOnAction { event ->
             ouvrirFenetreWarnings()
+        }
+
+        buttonWifi?.setOnAction { event ->
+            application.wifiView()
         }
 
         launchTimers()
@@ -254,15 +278,7 @@ class HelloController : Initializable {
     }
     /**Méthode ouvrant la fenêtre de login*/
     private fun ouvrirFenetreLogin(){
-        val loader = FXMLLoader(javaClass.getResource("/com.btsciel/login-view.fxml"))
-        val root = loader.load<Parent>()
-
-        val stage = Stage()
-        stage.title = "Login"
-        stage.scene = Scene(root)
-        stage.isResizable = false
-        stage.initModality(Modality.APPLICATION_MODAL)
-        stage.show()
+        application.loginView()
     }
 
     private fun ouvrirFenetreWarnings(){

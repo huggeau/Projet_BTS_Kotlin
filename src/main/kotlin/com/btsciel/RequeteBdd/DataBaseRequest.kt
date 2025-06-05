@@ -6,14 +6,15 @@ import java.sql.*
 class DataBaseRequest {
     /** Chemin vers la bdd pour le connecteur */
     // TODO: changer le chemin d'accès a la bdd local
-//    private val connector = "jdbc:sqlite:/home/install/BddLocal.sqlite";
+//    private val connector = "jdbc:sqlite:/home/install/BddLocal.sqlite"
     private val connector = "jdbc:sqlite:C:\\Users\\hugo\\OneDrive\\Projet\\BddLocal\\BddLocal.sqlite"
-
-    /** Vérifie si la bdd est joignable */
-    private var conn: Connection? = DriverManager.getConnection(connector)
 
     init {
         Class.forName("org.sqlite.JDBC")
+    }
+
+    private fun connect(): Connection {
+        return DriverManager.getConnection(connector)
     }
 
     /** Sert à insérer les data receptionné puis calculé dans la bdd locale. */
@@ -21,9 +22,9 @@ class DataBaseRequest {
     fun insertData(energie: String) {
         val timestamp = Timestamp(System.currentTimeMillis())
 
-        if (conn != null) {
+        connect().use { conn ->
             val query = "UPDATE Data SET Tarif = ?, Energie = ?, horodatage = ?"
-            val ps = conn!!.prepareStatement(query)
+            val ps = conn.prepareStatement(query)
             ps.setDouble(1, recupPrix())
             ps.setDouble(2, energie.toDouble())
             ps.setString(3, timestamp.toString())
@@ -35,25 +36,23 @@ class DataBaseRequest {
     @Throws(SQLException::class)
     fun recupPrix(): Double {
         var prix: String? = null
-        if (conn != null) {
+        connect().use { conn ->
             val query = "SELECT prix FROM Prix"
-            val ps = conn!!.prepareStatement(query)
+            val ps = conn.prepareStatement(query)
             val rs = ps.executeQuery()
             while (rs.next()) {
                 prix = rs.getString(1)
             }
-            checkNotNull(prix)
-            return prix.toDouble()
         }
-        return 0.0
+        return prix?.toDouble() ?: 0.0
     }
 
     /** Sert à mettre à jour le prix dans la bdd. */
     @Throws(SQLException::class)
     fun updatetPrix(prix: String?) {
-        if (conn != null) {
+        connect().use { conn ->
             val query = "UPDATE Prix SET prix=?"
-            val ps = conn!!.prepareStatement(query)
+            val ps = conn.prepareStatement(query)
             ps.setDouble(1, prix!!.toDouble())
             ps.executeUpdate()
         }
@@ -63,7 +62,7 @@ class DataBaseRequest {
     @Throws(SQLException::class)
     fun recupInfoOnduleur(): Array<String?>? {
         val tabInfo = arrayOfNulls<String>(3)
-        if (conn != null) {
+        connect().use { conn ->
             val query = "SELECT latitude, longitude, AddMac FROM information"
             val ps = conn!!.prepareStatement(query)
             val rs = ps.executeQuery()
@@ -74,14 +73,13 @@ class DataBaseRequest {
             }
             return tabInfo
         }
-        return null
     }
 
     /** Sert à récupérer la conso de la bdd, afin de l'envoyer à la bdd distante. */
     @Throws(SQLException::class)
     fun recupPostConso(): Array<String?>? {
         val tabInfo = arrayOfNulls<String>(3)
-        if (conn != null) {
+        connect().use { conn ->
             val query = "SELECT Tarif, Energie, horodatage FROM Data"
             val ps = conn!!.prepareStatement(query)
             val rs = ps.executeQuery()
@@ -92,13 +90,12 @@ class DataBaseRequest {
             }
             return tabInfo
         }
-        return null
     }
 
     /** Sert à mettre à jour les info de l'onduleur*/
     @Throws(SQLException::class)
     fun insertParam(latitude: String?, longitude: String?, addMac: String?){
-        if (conn != null) {
+        connect().use { conn ->
             val query = """
                 UPDATE information SET  latitude=?, longitude=?, AddMac=?
                  """.trimIndent()
@@ -112,7 +109,7 @@ class DataBaseRequest {
     }
 
     fun updateGainJournalier(gain: String) {
-        if(conn != null) {
+        connect().use { conn ->
             val query = "UPDATE gain_journalier SET  conso=?"
             val ps = conn!!.prepareStatement(query)
             ps.setString(1, gain)
@@ -121,17 +118,16 @@ class DataBaseRequest {
     }
 
     fun getGainJournalier(): Double {
-        if(conn != null) {
+        connect().use { conn ->
             val query = "SELECT conso FROM gain_journalier"
             val ps = conn!!.prepareStatement(query)
             val rs = ps.executeQuery()
             return rs.getDouble(1)
         }
-        return 0.0
     }
 
     fun updateGainMensuel(gain: String) {
-        if(conn != null) {
+        connect().use { conn ->
             val query = "UPDATE gain_mensuel SET  conso=?"
             val ps = conn!!.prepareStatement(query)
             ps.setString(1, gain)
@@ -140,17 +136,16 @@ class DataBaseRequest {
     }
 
     fun getGainMensuel(): Double {
-        if(conn != null) {
+        connect().use { conn ->
             val query = "SELECT conso FROM gain_mensuel"
             val ps = conn!!.prepareStatement(query)
             val rs = ps.executeQuery()
             return rs.getDouble(1)
         }
-        return 0.0
     }
 
     fun updateGainAnnuel(gain: String) {
-        if(conn != null) {
+        connect().use { conn ->
             val query = "UPDATE gain_annuel SET  gain=?"
             val ps = conn!!.prepareStatement(query)
             ps.setString(1, gain)
@@ -159,12 +154,11 @@ class DataBaseRequest {
     }
 
     fun getGainAnnuel(): Double {
-        if(conn != null) {
+        connect().use { conn ->
             val query = "SELECT gain FROM gain_annuel"
             val ps = conn!!.prepareStatement(query)
             val rs = ps.executeQuery()
             return rs.getDouble("gain")
         }
-        return 0.0
     }
 }

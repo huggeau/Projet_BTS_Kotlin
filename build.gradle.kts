@@ -24,13 +24,13 @@ tasks.withType<ShadowJar> {
     archiveClassifier.set("")
 
     manifest {
-        attributes["Main-Class"] = "com.btsciel.MainKt"
+        attributes["Main-Class"] = "com.btsciel.Main"
     }
 }
 
 dependencies {
     testImplementation(kotlin("test"))
-    implementation("org.xerial:sqlite-jdbc:3.41.2.2")
+    implementation("org.xerial:sqlite-jdbc:3.49.1.0")
     implementation("io.github.java-native:jssc:2.9.4")
     implementation("org.slf4j:slf4j-api:1.7.32")
     implementation ("org.slf4j:slf4j-simple:1.7.32")
